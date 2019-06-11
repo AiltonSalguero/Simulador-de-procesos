@@ -5,7 +5,7 @@
  */
 package Ventana;
 
-import DAO.daoPCB;
+import DAO.daoPCB_Expro;
 import DAO.daoProceso;
 import DTO.PairFCFS;
 import DTO.PairRR;
@@ -32,24 +32,26 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
     /**
      * Creates new form Ventana_No_Expropiativo
      */
-    public static boolean CambioCola=false;
-    public static int Contador=1; //numero total de procesos ingresados
-    public static int Tamano; 
+    public static boolean CambioCola = false;
+    public static int Contador = 1; //numero total de procesos ingresados
+    public static int Tamano;
     public static int BurstTime;
-    public static int Quantum=-1;//Carga el quantum en ejecución
+    public static int Quantum = -1;//Carga el quantum en ejecución
     //interrupciones
-    public static int ContadorInterrupciones=0;
-    public static boolean primera=true;//para interrupciones y procesos
+    public static int ContadorInterrupciones_FCFS = 0;
+    public static int ContadorInterrupciones_SJF = 0;
+    public static int ContadorInterrupciones_RR = 0;
+    public static boolean primera = true;//para interrupciones y procesos
     public PCB ventanaPCB = new PCB();
-    
-    public Thread principal=new Thread(new Hilo());
-    
+
+    public Thread principal = new Thread(new Hilo());
+
     public Ventana_Expropiativo() {
         initComponents();
     }
-    
-    public Queue< PairFCFS > FCFS = new LinkedList();
-    public PriorityQueue< PairSJF > SJF = new PriorityQueue<>();
+
+    public Queue< PairFCFS> FCFS = new LinkedList();
+    public PriorityQueue< PairSJF> SJF = new PriorityQueue<>();
     public ArrayList<PairRR> RR = new ArrayList<PairRR>();
     public ArrayList<dtoProceso> ProcesosFCFS = new ArrayList<dtoProceso>();
     public ArrayList<dtoProceso> ProcesosSJF = new ArrayList<dtoProceso>();
@@ -57,33 +59,33 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
     public ArrayList<PairTiempo> DuracionFCFS = new ArrayList<PairTiempo>();
     public ArrayList<PairTiempo> DuracionSJF = new ArrayList<PairTiempo>();
     public ArrayList<PairTiempo> DuracionRR = new ArrayList<PairTiempo>();
-    public int cntFCFS=1;
-    public int cntSJF=1;
-    public int cntRR=1;
-    public int IdProcesoFCFS=1;
-    public int IdProcesoSJF=1;
-    public int IdProcesoRR=1;
-    public int TimeTot=0;
+    public int cntFCFS = 1;
+    public int cntSJF = 1;
+    public int cntRR = 1;
+    public int IdProcesoFCFS = 1;
+    public int IdProcesoSJF = 1;
+    public int IdProcesoRR = 1;
+    public int TimeTot = 0;
     public PairRR UltimoRR;
     public Estadisticas VentanaEstadisticas = new Estadisticas();
-    public int T_INI_FCFS=0;
-    public int cnt_INI_FCFS=0;
-    public int T_FIN_FCFS=0;
-    public int cnt_FIN_FCFS=0;
-    public int T_INI_SJF=0;
-    public int cnt_INI_SJF=0;
-    public int T_FIN_SJF=0;
-    public int cnt_FIN_SJF=0;
-    public int T_INI_RR=0;
-    public int cnt_INI_RR=0;
-    public int T_FIN_RR=0;
-    public int cnt_FIN_RR=0;
-    public int BurstFCFS=0;
-    public int BurstSJF=0;
-    public int BurstRR=0;
-    public double RetornoFCFS=0.0;
-    public double RetornoSJF=0.0;
-    public double RetornoRR=0.0;
+    public int T_INI_FCFS = 0;
+    public int cnt_INI_FCFS = 0;
+    public int T_FIN_FCFS = 0;
+    public int cnt_FIN_FCFS = 0;
+    public int T_INI_SJF = 0;
+    public int cnt_INI_SJF = 0;
+    public int T_FIN_SJF = 0;
+    public int cnt_FIN_SJF = 0;
+    public int T_INI_RR = 0;
+    public int cnt_INI_RR = 0;
+    public int T_FIN_RR = 0;
+    public int cnt_FIN_RR = 0;
+    public int BurstFCFS = 0;
+    public int BurstSJF = 0;
+    public int BurstRR = 0;
+    public double RetornoFCFS = 0.0;
+    public double RetornoSJF = 0.0;
+    public double RetornoRR = 0.0;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -120,10 +122,10 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
         pgrFCFS = new javax.swing.JProgressBar();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        tblInterrupciones = new javax.swing.JTable();
+        tblInterrupciones_FCFS = new javax.swing.JTable();
         jLabel15 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        tblPCBFCFS = new javax.swing.JTable();
+        tblPCB_FCFS = new javax.swing.JTable();
         btnDefinirQuantum1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -137,10 +139,10 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
         txtPorcentajeSJF = new javax.swing.JTextField();
         pgrSJF = new javax.swing.JProgressBar();
         jScrollPane5 = new javax.swing.JScrollPane();
-        tblInterrupciones1 = new javax.swing.JTable();
+        tblInterrupciones_SJF = new javax.swing.JTable();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
-        tblPCBSJF = new javax.swing.JTable();
+        tblPCB_SJF = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
         btnDefinirQuantum3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -155,11 +157,11 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
         txtPorcentajeRR = new javax.swing.JTextField();
         pgrRR = new javax.swing.JProgressBar();
         jScrollPane6 = new javax.swing.JScrollPane();
-        tblInterrupciones2 = new javax.swing.JTable();
+        tblInterrupciones_RR = new javax.swing.JTable();
         jLabel14 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jScrollPane9 = new javax.swing.JScrollPane();
-        tblPCBRR = new javax.swing.JTable();
+        tblPCB_RR = new javax.swing.JTable();
         btnDefinirQuantum4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -265,7 +267,7 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel8.setText("INTERRUPCIONES");
 
-        tblInterrupciones.setModel(new javax.swing.table.DefaultTableModel(
+        tblInterrupciones_FCFS.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -273,13 +275,13 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
                 "#Interrupcion", "Proceso", "Tipo", "Duración", "Restante", "Estado"
             }
         ));
-        jScrollPane4.setViewportView(tblInterrupciones);
+        jScrollPane4.setViewportView(tblInterrupciones_FCFS);
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(0, 51, 204));
         jLabel15.setText("First Come First Served (FCFS)");
 
-        tblPCBFCFS.setModel(new javax.swing.table.DefaultTableModel(
+        tblPCB_FCFS.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -287,7 +289,7 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
                 "#Proceso", "EstadoCPU", "Procesador", "Memoria", "Estado", "Rescursos", "Planificador", "Prioridad", "Contabilizacion", "Ancestro", "Descendientes"
             }
         ));
-        jScrollPane7.setViewportView(tblPCBFCFS);
+        jScrollPane7.setViewportView(tblPCB_FCFS);
 
         btnDefinirQuantum1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnDefinirQuantum1.setText("Volver");
@@ -341,7 +343,7 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jScrollPane4)
                                     .addComponent(pgrFCFS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 677, Short.MAX_VALUE)
                                 .addComponent(btnDefinirQuantum1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
@@ -363,7 +365,7 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -380,7 +382,7 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnDefinirQuantum1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("FCFS", jPanel1);
@@ -424,7 +426,7 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
             }
         });
 
-        tblInterrupciones1.setModel(new javax.swing.table.DefaultTableModel(
+        tblInterrupciones_SJF.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -432,12 +434,12 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
                 "#Interrupcion", "Proceso", "Tipo", "Duración", "Restante", "Estado"
             }
         ));
-        jScrollPane5.setViewportView(tblInterrupciones1);
+        jScrollPane5.setViewportView(tblInterrupciones_SJF);
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel13.setText("INTERRUPCIONES");
 
-        tblPCBSJF.setModel(new javax.swing.table.DefaultTableModel(
+        tblPCB_SJF.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -445,7 +447,7 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
                 "#Proceso", "EstadoCPU", "Procesador", "Memoria", "Estado", "Rescursos", "Planificador", "Prioridad", "Contabilizacion", "Ancestro", "Descendientes"
             }
         ));
-        jScrollPane8.setViewportView(tblPCBSJF);
+        jScrollPane8.setViewportView(tblPCB_SJF);
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(0, 0, 204));
@@ -573,7 +575,7 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
             }
         });
 
-        tblInterrupciones2.setModel(new javax.swing.table.DefaultTableModel(
+        tblInterrupciones_RR.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -581,7 +583,7 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
                 "#Interrupcion", "Proceso", "Tipo", "Duración", "Restante", "Estado"
             }
         ));
-        jScrollPane6.setViewportView(tblInterrupciones2);
+        jScrollPane6.setViewportView(tblInterrupciones_RR);
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel14.setText("INTERRUPCIONES");
@@ -590,7 +592,7 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
         jLabel17.setForeground(new java.awt.Color(0, 0, 204));
         jLabel17.setText("Round Robin (RR)");
 
-        tblPCBRR.setModel(new javax.swing.table.DefaultTableModel(
+        tblPCB_RR.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -598,7 +600,7 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
                 "#Proceso", "EstadoCPU", "Procesador", "Memoria", "Estado", "Rescursos", "Planificador", "Prioridad", "Contabilizacion", "Ancestro", "Descendientes"
             }
         ));
-        jScrollPane9.setViewportView(tblPCBRR);
+        jScrollPane9.setViewportView(tblPCB_RR);
 
         btnDefinirQuantum4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnDefinirQuantum4.setText("Volver");
@@ -628,52 +630,49 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
                                 .addComponent(txtPorcentajeRR, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel14)
-                                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtCntRR, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel14)
+                                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel11)
-                                            .addGap(140, 140, 140)
-                                            .addComponent(txtCntRR, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(jLabel7))
-                                    .addGap(56, 56, 56)))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jLabel7))
+                                        .addGap(276, 276, 276)))
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addComponent(jLabel17)
-                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                         .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 895, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addContainerGap())))
+                                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 895, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap())
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnDefinirQuantum4, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())))))
+                                .addGap(28, 28, 28))))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGap(30, 30, 30)
-                            .addComponent(txtCntRR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel7)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel11)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel17)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel17))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel11))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(txtCntRR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -692,7 +691,7 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnDefinirQuantum4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 19, Short.MAX_VALUE))
+                .addGap(0, 22, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("RR", jPanel3);
@@ -733,10 +732,9 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(btnGenerarAleatorio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                        .addContainerGap(397, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addGap(0, 385, Short.MAX_VALUE))
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -804,34 +802,34 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
         DefaultTableModel NuevaTabla2 = (DefaultTableModel) tblSJF.getModel();
         DefaultTableModel NuevaTabla3 = (DefaultTableModel) tblRR.getModel();
 
-        CambioCola=true;
-        
-        if(Quantum>0){
+        CambioCola = true;
+
+        if (Quantum > 0) {
             // Crea el objeto Proceso
             dtoProceso proceso = new dtoProceso();
-            daoPCB daopcb= new daoPCB();
-            if(Contador%3==1){
+            daoPCB_Expro daopcb = new daoPCB_Expro();
+            if (Contador % 3 == 1) {
                 proceso.setIdentificador(IdProcesoFCFS);
                 txtCntFCFS.setText(String.valueOf(cntFCFS));
-                IngresaEstadistica(IdProcesoFCFS,BurstTime,1);
+                IngresaEstadistica(IdProcesoFCFS, BurstTime, 1);
                 IdProcesoFCFS++;
                 cntFCFS++;
-            }else if(Contador%3==2){
+            } else if (Contador % 3 == 2) {
                 proceso.setIdentificador(IdProcesoSJF);
                 txtCntSJF.setText(String.valueOf(cntSJF));
-                IngresaEstadistica(IdProcesoSJF,BurstTime,2);
+                IngresaEstadistica(IdProcesoSJF, BurstTime, 2);
                 IdProcesoSJF++;
                 cntSJF++;
-            }else{
+            } else {
                 proceso.setIdentificador(IdProcesoRR);
                 txtCntRR.setText(String.valueOf(cntRR));
-                IngresaEstadistica(IdProcesoRR,BurstTime,3);
+                IngresaEstadistica(IdProcesoRR, BurstTime, 3);
                 IdProcesoRR++;
                 cntRR++;
             }
             proceso.setEstadoCPU(1);
             proceso.setProcesador(1);
-            proceso.setMemoria(new Pair<>(0,Tamano));
+            proceso.setMemoria(new Pair<>(0, Tamano));
             proceso.setEstadoProceso("Nuevo");
             proceso.setRecursos(new ArrayList<String>());
             proceso.setPlanificador("Largo");
@@ -840,46 +838,46 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
             proceso.setAncestro(0);
             proceso.setDescendientes(new ArrayList<Integer>());
 
-            String idNueva=proceso.getAncestro().toString()+'-'+proceso.getIdentificador().toString();
-            if(Contador%3==1){
-                BurstFCFS+=BurstTime;
+            String idNueva = proceso.getAncestro().toString() + '-' + proceso.getIdentificador().toString();
+            if (Contador % 3 == 1) {
+                BurstFCFS += BurstTime;
                 ProcesosFCFS.add(proceso);
-                daopcb.CargarPCB(ventanaPCB,1,proceso,-1,-1);
-                CambiaEstado(proceso.getIdentificador().intValue(),"Listo",1);
-                FCFS.add(new PairFCFS(BurstTime,proceso.getIdentificador(),BurstTime));
-                DuracionFCFS.add(new PairTiempo(null,null));
-                daoProceso.AgregarProceso(NuevaTabla1,idNueva,BurstTime);
+                daopcb.CargarPCB(this, 1, proceso, -1, -1);
+                CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 1);
+                FCFS.add(new PairFCFS(BurstTime, proceso.getIdentificador(), BurstTime));
+                DuracionFCFS.add(new PairTiempo(null, null));
+                daoProceso.AgregarProceso(NuevaTabla1, idNueva, BurstTime);
                 tblFCFS.setModel(NuevaTabla1);
-            }else if(Contador%3==2){
-                BurstSJF+=BurstTime;
+            } else if (Contador % 3 == 2) {
+                BurstSJF += BurstTime;
                 ProcesosSJF.add(proceso);
-                daopcb.CargarPCB(ventanaPCB,2,proceso,-1,-1);
-                CambiaEstado(proceso.getIdentificador().intValue(),"Listo",2);
-                SJF.add(new PairSJF(BurstTime,BurstTime,proceso.getIdentificador()));
-                DuracionSJF.add(new PairTiempo(null,null));
-                daoProceso.AgregarProceso(NuevaTabla2,idNueva,BurstTime);
+                daopcb.CargarPCB(this, 2, proceso, -1, -1);
+                CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 2);
+                SJF.add(new PairSJF(BurstTime, BurstTime, proceso.getIdentificador()));
+                DuracionSJF.add(new PairTiempo(null, null));
+                daoProceso.AgregarProceso(NuevaTabla2, idNueva, BurstTime);
                 tblSJF.setModel(NuevaTabla2);
-            }else{
-                BurstRR+=BurstTime;
-                if(RR.size()==0){
-                    UltimoRR=new PairRR(BurstTime,proceso.getIdentificador(),BurstTime);
+            } else {
+                BurstRR += BurstTime;
+                if (RR.size() == 0) {
+                    UltimoRR = new PairRR(BurstTime, proceso.getIdentificador(), BurstTime);
                 }
                 ProcesosRR.add(proceso);
-                daopcb.CargarPCB(ventanaPCB,3,proceso,-1,-1);
-                CambiaEstado(proceso.getIdentificador().intValue(),"Listo",3);
-                RR.add(new PairRR(BurstTime,proceso.getIdentificador(),BurstTime));
-                DuracionRR.add(new PairTiempo(null,null));
-                daoProceso.AgregarProceso(NuevaTabla3,idNueva,BurstTime);
+                daopcb.CargarPCB(this, 3, proceso, -1, -1);
+                CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 3);
+                RR.add(new PairRR(BurstTime, proceso.getIdentificador(), BurstTime));
+                DuracionRR.add(new PairTiempo(null, null));
+                daoProceso.AgregarProceso(NuevaTabla3, idNueva, BurstTime);
                 tblRR.setModel(NuevaTabla3);
             }
-            if(primera){
+            if (primera) {
                 principal.start();
                 primera = !primera;
             }
             txtTamano.setText(null);
             txtBurstTime.setText(null);
             Contador++;
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Escriba el valor del Quantum");
         }
     }//GEN-LAST:event_btnAnadirProcesoUsuarioActionPerformed
@@ -901,38 +899,38 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
         DefaultTableModel NuevaTabla1 = (DefaultTableModel) tblFCFS.getModel();
         DefaultTableModel NuevaTabla2 = (DefaultTableModel) tblSJF.getModel();
         DefaultTableModel NuevaTabla3 = (DefaultTableModel) tblRR.getModel();
-           
-        if(Quantum>0){
-            
-            for(int i=0; i<10; i++){
+
+        if (Quantum > 0) {
+
+            for (int i = 0; i < 10; i++) {
                 dtoProceso proceso = new dtoProceso();
-                daoPCB daopcb= new daoPCB();
-                Random r =  new Random();
-                
-                BurstTime=200+r.nextInt(50);
-                Tamano=500+r.nextInt(50);
-                
+                daoPCB_Expro daopcb = new daoPCB_Expro();
+                Random r = new Random();
+
+                BurstTime = 200 + r.nextInt(50);
+                Tamano = 500 + r.nextInt(50);
+
                 proceso.setIdentificador(IdProcesoFCFS);
                 txtCntFCFS.setText(String.valueOf(cntFCFS));
-                IngresaEstadistica(IdProcesoFCFS,BurstTime,1);
+                IngresaEstadistica(IdProcesoFCFS, BurstTime, 1);
                 IdProcesoFCFS++;
                 cntFCFS++;
-                
+
                 proceso.setIdentificador(IdProcesoSJF);
                 txtCntSJF.setText(String.valueOf(cntSJF));
-                IngresaEstadistica(IdProcesoSJF,BurstTime,2);
+                IngresaEstadistica(IdProcesoSJF, BurstTime, 2);
                 IdProcesoSJF++;
                 cntSJF++;
-                
+
                 proceso.setIdentificador(IdProcesoRR);
                 txtCntRR.setText(String.valueOf(cntRR));
-                IngresaEstadistica(IdProcesoRR,BurstTime,3);
+                IngresaEstadistica(IdProcesoRR, BurstTime, 3);
                 IdProcesoRR++;
                 cntRR++;
-                
+
                 proceso.setEstadoCPU(1);
                 proceso.setProcesador(1);
-                proceso.setMemoria(new Pair<>(0,Tamano));
+                proceso.setMemoria(new Pair<>(0, Tamano));
                 proceso.setEstadoProceso("Nuevo");
                 proceso.setRecursos(new ArrayList<String>());
                 proceso.setPlanificador("Largo");
@@ -941,49 +939,48 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
                 proceso.setAncestro(0);
                 proceso.setDescendientes(new ArrayList<Integer>());
 
-                String idNueva=proceso.getAncestro().toString()+'-'+proceso.getIdentificador().toString();
-                
-                BurstFCFS+=BurstTime;
+                String idNueva = proceso.getAncestro().toString() + '-' + proceso.getIdentificador().toString();
+
+                BurstFCFS += BurstTime;
                 ProcesosFCFS.add(proceso);
-                daopcb.CargarPCB(ventanaPCB,1,proceso,-1,-1);
-                CambiaEstado(proceso.getIdentificador().intValue(),"Listo",1);
-                FCFS.add(new PairFCFS(BurstTime,proceso.getIdentificador(),BurstTime));
-                DuracionFCFS.add(new PairTiempo(null,null));
-                daoProceso.AgregarProceso(NuevaTabla1,idNueva,BurstTime);
+                daopcb.CargarPCB(this, 1, proceso, -1, -1);
+                CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 1);
+                FCFS.add(new PairFCFS(BurstTime, proceso.getIdentificador(), BurstTime));
+                DuracionFCFS.add(new PairTiempo(null, null));
+                daoProceso.AgregarProceso(NuevaTabla1, idNueva, BurstTime);
                 tblFCFS.setModel(NuevaTabla1);
-                
-                BurstSJF+=BurstTime;
+
+                BurstSJF += BurstTime;
                 ProcesosSJF.add(proceso);
-                daopcb.CargarPCB(ventanaPCB,2,proceso,-1,-1);
-                CambiaEstado(proceso.getIdentificador().intValue(),"Listo",2);
-                SJF.add(new PairSJF(BurstTime,BurstTime,proceso.getIdentificador()));
-                DuracionSJF.add(new PairTiempo(null,null));
-                daoProceso.AgregarProceso(NuevaTabla2,idNueva,BurstTime);
+                daopcb.CargarPCB(this, 2, proceso, -1, -1);
+                CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 2);
+                SJF.add(new PairSJF(BurstTime, BurstTime, proceso.getIdentificador()));
+                DuracionSJF.add(new PairTiempo(null, null));
+                daoProceso.AgregarProceso(NuevaTabla2, idNueva, BurstTime);
                 tblSJF.setModel(NuevaTabla2);
-                
-                BurstRR+=BurstTime;
-                if(RR.size()==0){
-                    UltimoRR=new PairRR(BurstTime,proceso.getIdentificador(),BurstTime);
+
+                BurstRR += BurstTime;
+                if (RR.size() == 0) {
+                    UltimoRR = new PairRR(BurstTime, proceso.getIdentificador(), BurstTime);
                 }
                 ProcesosRR.add(proceso);
-                daopcb.CargarPCB(ventanaPCB,3,proceso,-1,-1);
-                CambiaEstado(proceso.getIdentificador().intValue(),"Listo",3);
-                RR.add(new PairRR(BurstTime,proceso.getIdentificador(),BurstTime));
-                DuracionRR.add(new PairTiempo(null,null));
-                daoProceso.AgregarProceso(NuevaTabla3,idNueva,BurstTime);
+                daopcb.CargarPCB(this, 3, proceso, -1, -1);
+                CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 3);
+                RR.add(new PairRR(BurstTime, proceso.getIdentificador(), BurstTime));
+                DuracionRR.add(new PairTiempo(null, null));
+                daoProceso.AgregarProceso(NuevaTabla3, idNueva, BurstTime);
                 tblRR.setModel(NuevaTabla3);
-                
+
                 txtTamano.setText(null);
                 txtBurstTime.setText(null);
-                Contador+=3;
-                if(primera){
+                Contador += 3;
+                if (primera) {
                     principal.start();
                     primera = !primera;
                 }
             }
-            
-        }
-        else{
+
+        } else {
             // Si no ha escrito el valor de quantum
             JOptionPane.showMessageDialog(null, "Escriba el valor del Quantum");
         }
@@ -1018,166 +1015,166 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Ventana_Expropiativo().setVisible(true);
-                
+
             }
         });
-        
+
     }
-    
-    private class Hilo implements Runnable{ //Objeto de tipo Hilo con extension ejecutable
+
+    private class Hilo implements Runnable { //Objeto de tipo Hilo con extension ejecutable
+
         @Override
-        public void run(){
-            while(true){
+        public void run() {
+            while (true) {
                 MuestraUsoCPU();
-                System.out.println("-> "+FCFS.size()+" "+SJF.size()+" "+RR.size());
-                if(!FCFS.isEmpty()){
-                    PairFCFS ac=FCFS.peek();
-                    dtoProceso procesoActual=new dtoProceso();
-                    procesoActual=ProcesosFCFS.get(ac.getIdentificador().intValue()-1);
-                    String idNuevo=procesoActual.getAncestro().toString()+'-'+procesoActual.getIdentificador().toString();
-                    int PosicionTabla=BuscaPosicionTabla(idNuevo,1);
-                    int tiempo=ac.getBurstTime().intValue();
-                    if(ac.getNivel().equals(ac.getBurstTime())){
-                        AsignaInicio(ac.getIdentificador().intValue(),1);
+                System.out.println("-> " + FCFS.size() + " " + SJF.size() + " " + RR.size());
+                if (!FCFS.isEmpty()) {
+                    PairFCFS ac = FCFS.peek();
+                    dtoProceso procesoActual = new dtoProceso();
+                    procesoActual = ProcesosFCFS.get(ac.getIdentificador().intValue() - 1);
+                    String idNuevo = procesoActual.getAncestro().toString() + '-' + procesoActual.getIdentificador().toString();
+                    int PosicionTabla = BuscaPosicionTabla(idNuevo, 1);
+                    int tiempo = ac.getBurstTime().intValue();
+                    if (ac.getNivel().equals(ac.getBurstTime())) {
+                        AsignaInicio(ac.getIdentificador().intValue(), 1);
                     }
                     int i;
-                    for(i=1; i<=tiempo; i++){
+                    for (i = 1; i <= tiempo; i++) {
                         TimeTot++;
-                        CambiaEstado(procesoActual.getIdentificador().intValue(),"Ejecutando",1);
-                        MostrarProgreso(ac.getNivel().intValue()-ac.getBurstTime().intValue()+i,ac.getNivel().intValue(),ac.getIdentificador().intValue(),1);
-                        tblFCFS.setValueAt(procesoActual.getEstadoProceso(),PosicionTabla,3);
-                        tblFCFS.setValueAt(String.valueOf(tiempo-i),PosicionTabla,2);
+                        CambiaEstado(procesoActual.getIdentificador().intValue(), "Ejecutando", 1);
+                        MostrarProgreso(ac.getNivel().intValue() - ac.getBurstTime().intValue() + i, ac.getNivel().intValue(), ac.getIdentificador().intValue(), 1);
+                        tblFCFS.setValueAt(procesoActual.getEstadoProceso(), PosicionTabla, 3);
+                        tblFCFS.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
                         Dormir();
-                        GeneraInterrupcion(PosicionTabla,ac.getIdentificador().intValue(),1);
-                        if(CambioCola){
-                            CambioCola=false;
+                        GeneraInterrupcion(PosicionTabla, ac.getIdentificador().intValue(), 1);
+                        if (CambioCola) {
+                            CambioCola = false;
                             break;
                         }
-                        GeneraHijo(PosicionTabla,ac.getIdentificador().intValue(),1);
-                        if(CambioCola){
-                            CambioCola=false;
+                        GeneraHijo(PosicionTabla, ac.getIdentificador().intValue(), 1);
+                        if (CambioCola) {
+                            CambioCola = false;
                             break;
                         }
                     }
-                    if(i>=tiempo){
-                        CambiaEstado(procesoActual.getIdentificador().intValue(),"Terminado",1);
-                        Borrar(PosicionTabla,1);
-                        AsignaFin(ac.getIdentificador().intValue(),1);
+                    if (i >= tiempo) {
+                        CambiaEstado(procesoActual.getIdentificador().intValue(), "Terminado", 1);
+                        Borrar(PosicionTabla, 1);
+                        AsignaFin(ac.getIdentificador().intValue(), 1);
                         FCFS.remove();
-                    }else{
-                        CambiaEstado(procesoActual.getIdentificador().intValue(),"Listo",1);
-                        tblFCFS.setValueAt("Listo",PosicionTabla,3);
-                        FCFS.peek().setBurstTime(tiempo-i);
+                    } else {
+                        CambiaEstado(procesoActual.getIdentificador().intValue(), "Listo", 1);
+                        tblFCFS.setValueAt("Listo", PosicionTabla, 3);
+                        FCFS.peek().setBurstTime(tiempo - i);
                     }
                     /*PairTiempo aux = new PairTiempo();
                     aux=DuracionFCFS.get(ac.getIdentificador().intValue()-1);
                     System.out.println("Tipo 1 para "+ac.getIdentificador()+" -> "+aux.getInicio()+" "+aux.getFin());*/
                 }
-                if(!SJF.isEmpty()){
-                    PairSJF ac=SJF.peek();
-                    dtoProceso procesoActual=new dtoProceso();
-                    procesoActual=ProcesosSJF.get(ac.getIdentificador().intValue()-1);
-                    String idNuevo=procesoActual.getAncestro().toString()+'-'+procesoActual.getIdentificador().toString();
-                    int PosicionTabla=BuscaPosicionTabla(idNuevo,2);
-                    int tiempo=ac.getBurstTime().intValue();
-                    if(ac.getNivel().equals(ac.getBurstTime())){
-                        AsignaInicio(ac.getIdentificador().intValue(),2);
+                if (!SJF.isEmpty()) {
+                    PairSJF ac = SJF.peek();
+                    dtoProceso procesoActual = new dtoProceso();
+                    procesoActual = ProcesosSJF.get(ac.getIdentificador().intValue() - 1);
+                    String idNuevo = procesoActual.getAncestro().toString() + '-' + procesoActual.getIdentificador().toString();
+                    int PosicionTabla = BuscaPosicionTabla(idNuevo, 2);
+                    int tiempo = ac.getBurstTime().intValue();
+                    if (ac.getNivel().equals(ac.getBurstTime())) {
+                        AsignaInicio(ac.getIdentificador().intValue(), 2);
                     }
                     int i;
-                    for(i=1; i<=tiempo; i++){
+                    for (i = 1; i <= tiempo; i++) {
                         TimeTot++;
-                        CambiaEstado(procesoActual.getIdentificador().intValue(),"Ejecutando",2);
-                        MostrarProgreso(ac.getNivel().intValue()-ac.getBurstTime().intValue()+i,ac.getNivel().intValue(),ac.getIdentificador().intValue(),2);
-                        tblSJF.setValueAt(procesoActual.getEstadoProceso(),PosicionTabla,3);
-                        tblSJF.setValueAt(String.valueOf(tiempo-i),PosicionTabla,2);
+                        CambiaEstado(procesoActual.getIdentificador().intValue(), "Ejecutando", 2);
+                        MostrarProgreso(ac.getNivel().intValue() - ac.getBurstTime().intValue() + i, ac.getNivel().intValue(), ac.getIdentificador().intValue(), 2);
+                        tblSJF.setValueAt(procesoActual.getEstadoProceso(), PosicionTabla, 3);
+                        tblSJF.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
                         Dormir();
-                        GeneraInterrupcion(PosicionTabla,ac.getIdentificador().intValue(),2);
-                        if(CambioCola){
-                            CambioCola=false;
+                        GeneraInterrupcion(PosicionTabla, ac.getIdentificador().intValue(), 2);
+                        if (CambioCola) {
+                            CambioCola = false;
                             break;
                         }
-                        GeneraHijo(PosicionTabla,ac.getIdentificador().intValue(),2);
-                        if(CambioCola){
-                            CambioCola=false;
+                        GeneraHijo(PosicionTabla, ac.getIdentificador().intValue(), 2);
+                        if (CambioCola) {
+                            CambioCola = false;
                             break;
                         }
                     }
-                    if(i>=tiempo){
-                        CambiaEstado(procesoActual.getIdentificador().intValue(),"Terminado",2);
-                        Borrar(PosicionTabla,2);
-                        AsignaFin(ac.getIdentificador().intValue(),2);
+                    if (i >= tiempo) {
+                        CambiaEstado(procesoActual.getIdentificador().intValue(), "Terminado", 2);
+                        Borrar(PosicionTabla, 2);
+                        AsignaFin(ac.getIdentificador().intValue(), 2);
                         SJF.remove();
-                    }else{
-                        CambiaEstado(procesoActual.getIdentificador().intValue(),"Listo",2);
-                        tblSJF.setValueAt("Listo",PosicionTabla,3);
-                        SJF.peek().setBurstTime(tiempo-i);
+                    } else {
+                        CambiaEstado(procesoActual.getIdentificador().intValue(), "Listo", 2);
+                        tblSJF.setValueAt("Listo", PosicionTabla, 3);
+                        SJF.peek().setBurstTime(tiempo - i);
                     }
-                    
+
                     /*PairTiempo aux = new PairTiempo();
                     aux=DuracionSJF.get(ac.getIdentificador().intValue()-1);
                     System.out.println("Tipo 2 para "+ac.getIdentificador()+" -> "+aux.getInicio()+" "+aux.getFin());*/
                 }
-                int sz=RR.size();
-                if(sz!=0){
-                    dtoProceso procesoActual=new dtoProceso();
-                    procesoActual=ProcesosRR.get(UltimoRR.getIdentificador().intValue()-1);
-                    String idNuevo=procesoActual.getAncestro().toString()+'-'+procesoActual.getIdentificador().toString();
-                    int PosicionTabla=BuscaPosicionTabla(idNuevo,3);
-                    int tiempo=UltimoRR.getResiduo().intValue();
+                int sz = RR.size();
+                if (sz != 0) {
+                    dtoProceso procesoActual = new dtoProceso();
+                    procesoActual = ProcesosRR.get(UltimoRR.getIdentificador().intValue() - 1);
+                    String idNuevo = procesoActual.getAncestro().toString() + '-' + procesoActual.getIdentificador().toString();
+                    int PosicionTabla = BuscaPosicionTabla(idNuevo, 3);
+                    int tiempo = UltimoRR.getResiduo().intValue();
                     int tiempoReducir;
-                    boolean termina=false;
-                    if(UltimoRR.getBurstTime().equals(UltimoRR.getResiduo())){
-                        AsignaInicio(UltimoRR.getIdentificador().intValue(),3);
+                    boolean termina = false;
+                    if (UltimoRR.getBurstTime().equals(UltimoRR.getResiduo())) {
+                        AsignaInicio(UltimoRR.getIdentificador().intValue(), 3);
                     }
-                    if(termina && tiempo>Quantum){
-                        tiempoReducir=Quantum;
-                    }else{
-                        termina=true;
-                        tiempoReducir=tiempo;
+                    if (termina && tiempo > Quantum) {
+                        tiempoReducir = Quantum;
+                    } else {
+                        termina = true;
+                        tiempoReducir = tiempo;
                     }
-                    
+
                     int i;
-                    for(i=1; i<=tiempoReducir; i++){
+                    for (i = 1; i <= tiempoReducir; i++) {
                         TimeTot++;
-                        CambiaEstado(procesoActual.getIdentificador().intValue(),"Ejecutando",3);
-                        MostrarProgreso(UltimoRR.getBurstTime().intValue()-(UltimoRR.getResiduo().intValue()-i),UltimoRR.getBurstTime().intValue(),UltimoRR.getIdentificador().intValue(),3);
-                        tblRR.setValueAt(procesoActual.getEstadoProceso(),PosicionTabla,3);
-                        tblRR.setValueAt(String.valueOf(tiempo-i),PosicionTabla,2);
+                        CambiaEstado(procesoActual.getIdentificador().intValue(), "Ejecutando", 3);
+                        MostrarProgreso(UltimoRR.getBurstTime().intValue() - (UltimoRR.getResiduo().intValue() - i), UltimoRR.getBurstTime().intValue(), UltimoRR.getIdentificador().intValue(), 3);
+                        tblRR.setValueAt(procesoActual.getEstadoProceso(), PosicionTabla, 3);
+                        tblRR.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
                         Dormir();
-                        GeneraInterrupcion(PosicionTabla,UltimoRR.getIdentificador().intValue(),3);
-                        if(CambioCola){
-                            CambioCola=false;
+                        GeneraInterrupcion(PosicionTabla, UltimoRR.getIdentificador().intValue(), 3);
+                        if (CambioCola) {
+                            CambioCola = false;
                             break;
                         }
-                        GeneraHijo(PosicionTabla,UltimoRR.getIdentificador().intValue(),3);
-                        if(CambioCola){
-                            CambioCola=false;
+                        GeneraHijo(PosicionTabla, UltimoRR.getIdentificador().intValue(), 3);
+                        if (CambioCola) {
+                            CambioCola = false;
                             break;
                         }
                     }
-                    if(i>=tiempoReducir){
-                        CambiaEstado(procesoActual.getIdentificador().intValue(),"Terminado",3);
-                        AsignaFin(UltimoRR.getIdentificador().intValue(),3);
-                        
+                    if (i >= tiempoReducir) {
+                        CambiaEstado(procesoActual.getIdentificador().intValue(), "Terminado", 3);
+                        AsignaFin(UltimoRR.getIdentificador().intValue(), 3);
+
                         /*PairTiempo aux = new PairTiempo();
                         aux=DuracionRR.get(UltimoRR.getIdentificador().intValue()-1);
                         System.out.println("Tipo 3 para "+UltimoRR.getIdentificador()+" -> "+aux.getInicio()+" "+aux.getFin());*/
-                        
                         RR.remove(PosicionTabla);
-                        sz=RR.size();
-                        if(sz!=0){
-                            UltimoRR=RR.get(PosicionTabla%sz);
+                        sz = RR.size();
+                        if (sz != 0) {
+                            UltimoRR = RR.get(PosicionTabla % sz);
                         }
-                        Borrar(PosicionTabla,3);
-                    }else{
-                        CambiaEstado(procesoActual.getIdentificador().intValue(),"Listo",3);
-                        RR.set(PosicionTabla, new PairRR(UltimoRR.getBurstTime(),UltimoRR.getIdentificador(),tiempo-i));
-                        tblRR.setValueAt("Listo",PosicionTabla,3);
-                        UltimoRR=RR.get((PosicionTabla+1)%sz);
+                        Borrar(PosicionTabla, 3);
+                    } else {
+                        CambiaEstado(procesoActual.getIdentificador().intValue(), "Listo", 3);
+                        RR.set(PosicionTabla, new PairRR(UltimoRR.getBurstTime(), UltimoRR.getIdentificador(), tiempo - i));
+                        tblRR.setValueAt("Listo", PosicionTabla, 3);
+                        UltimoRR = RR.get((PosicionTabla + 1) % sz);
                     }
                 }
                 /*if(FCFS.size()==0 && SJF.size()==0 && RR.size()==0){
@@ -1187,47 +1184,47 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
             }
         }
     }
-    
-    public void Borrar(int pos, int tipo){
-        if(tipo==1){
+
+    public void Borrar(int pos, int tipo) {
+        if (tipo == 1) {
             DefaultTableModel dtm = (DefaultTableModel) tblFCFS.getModel();
-            dtm.removeRow(pos); 
+            dtm.removeRow(pos);
             tblFCFS.setModel(dtm);
-        }else if(tipo==2){
+        } else if (tipo == 2) {
             DefaultTableModel dtm = (DefaultTableModel) tblSJF.getModel();
-            dtm.removeRow(pos); 
+            dtm.removeRow(pos);
             tblSJF.setModel(dtm);
-        }else{
+        } else {
             DefaultTableModel dtm = (DefaultTableModel) tblRR.getModel();
-            dtm.removeRow(pos); 
+            dtm.removeRow(pos);
             tblRR.setModel(dtm);
         }
     }
-    
-    public void GeneraHijo(int PosicionTabla, int IdProceso, int tipo){
-        Random r =  new Random();
-        daoPCB daopcb= new daoPCB();
-        if(r.nextInt(100)<5){
-            ActualizaDescendientes(IdProceso,tipo);
-            CambiaEstado(IdProceso,"Bloqueado",tipo);
+
+    public void GeneraHijo(int PosicionTabla, int IdProceso, int tipo) {
+        Random r = new Random();
+        daoPCB_Expro daopcb = new daoPCB_Expro();
+        if (r.nextInt(100) < 5) {
+            ActualizaDescendientes(IdProceso, tipo);
+            CambiaEstado(IdProceso, "Bloqueado", tipo);
             dtoProceso proceso = new dtoProceso();
-            if(tipo==1){
-                tblFCFS.setValueAt("Bloqueado por Hijo", PosicionTabla,3);
+            if (tipo == 1) {
+                tblFCFS.setValueAt("Bloqueado por Hijo", PosicionTabla, 3);
                 proceso.setIdentificador(IdProcesoFCFS);
                 IdProcesoFCFS++;
-            }else if(tipo==2){
-                tblSJF.setValueAt("Bloqueado por Hijo", PosicionTabla,3);
+            } else if (tipo == 2) {
+                tblSJF.setValueAt("Bloqueado por Hijo", PosicionTabla, 3);
                 proceso.setIdentificador(IdProcesoSJF);
                 IdProcesoSJF++;
-            }else{
-                tblRR.setValueAt("Bloqueado por Hijo", PosicionTabla,3);
+            } else {
+                tblRR.setValueAt("Bloqueado por Hijo", PosicionTabla, 3);
                 proceso.setIdentificador(IdProcesoRR);
                 IdProcesoRR++;
             }
-            Tamano=r.nextInt(100)+1;
+            Tamano = r.nextInt(100) + 1;
             proceso.setEstadoCPU(1);
             proceso.setProcesador(1);
-            proceso.setMemoria(new Pair<>(0,Tamano));
+            proceso.setMemoria(new Pair<>(0, Tamano));
             proceso.setEstadoProceso("Nuevo");
             proceso.setRecursos(new ArrayList<String>());
             proceso.setPlanificador("Largo");
@@ -1235,322 +1232,351 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
             proceso.setContabilizacion(0);
             proceso.setAncestro(IdProceso);
             proceso.setDescendientes(new ArrayList<Integer>());
-            if(Quantum>20){
-                BurstTime=r.nextInt(20)+1;
-            }else{
-                BurstTime=r.nextInt(Quantum)+1;
+            if (Quantum > 20) {
+                BurstTime = r.nextInt(20) + 1;
+            } else {
+                BurstTime = r.nextInt(Quantum) + 1;
             }
-            if(tipo==1){
-                IngresaEstadistica(IdProcesoFCFS-1,BurstTime,1);
-            }else if(tipo==2){
-                IngresaEstadistica(IdProcesoSJF-1,BurstTime,2);
-            }else{
-                IngresaEstadistica(IdProcesoRR-1,BurstTime,3);
+            if (tipo == 1) {
+                IngresaEstadistica(IdProcesoFCFS - 1, BurstTime, 1);
+            } else if (tipo == 2) {
+                IngresaEstadistica(IdProcesoSJF - 1, BurstTime, 2);
+            } else {
+                IngresaEstadistica(IdProcesoRR - 1, BurstTime, 3);
             }
-            String idNueva=proceso.getAncestro().toString()+'-'+proceso.getIdentificador().toString();
-            if(tipo==1){
-                BurstFCFS+=BurstTime;
+            String idNueva = proceso.getAncestro().toString() + '-' + proceso.getIdentificador().toString();
+            if (tipo == 1) {
+                BurstFCFS += BurstTime;
                 DefaultTableModel NuevaTabla1 = (DefaultTableModel) tblFCFS.getModel();
                 ProcesosFCFS.add(proceso);
-                daopcb.CargarPCB(ventanaPCB,tipo,proceso,-1,-1);
-                DuracionFCFS.add(new PairTiempo(null,null));
-                CambiaEstado(proceso.getIdentificador().intValue(),"Listo",1);
-                daoProceso.AgregarProceso(NuevaTabla1,idNueva,BurstTime);
+                daopcb.CargarPCB(this, tipo, proceso, -1, -1);
+                DuracionFCFS.add(new PairTiempo(null, null));
+                CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 1);
+                daoProceso.AgregarProceso(NuevaTabla1, idNueva, BurstTime);
                 tblFCFS.setModel(NuevaTabla1);
-            }else if(tipo==2){
-                BurstSJF+=BurstTime;
+            } else if (tipo == 2) {
+                BurstSJF += BurstTime;
                 DefaultTableModel NuevaTabla2 = (DefaultTableModel) tblSJF.getModel();
                 ProcesosSJF.add(proceso);
-                daopcb.CargarPCB(ventanaPCB,tipo,proceso,-1,-1);
-                DuracionSJF.add(new PairTiempo(null,null));
-                CambiaEstado(proceso.getIdentificador().intValue(),"Listo",2);
-                daoProceso.AgregarProceso(NuevaTabla2,idNueva,BurstTime);
+                daopcb.CargarPCB(this, tipo, proceso, -1, -1);
+                DuracionSJF.add(new PairTiempo(null, null));
+                CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 2);
+                daoProceso.AgregarProceso(NuevaTabla2, idNueva, BurstTime);
                 tblSJF.setModel(NuevaTabla2);
-            }else{
-                BurstRR+=BurstTime;
+            } else {
+                BurstRR += BurstTime;
                 DefaultTableModel NuevaTabla3 = (DefaultTableModel) tblRR.getModel();
                 ProcesosRR.add(proceso);
-                daopcb.CargarPCB(ventanaPCB,tipo,proceso,-1,-1);
-                DuracionRR.add(new PairTiempo(null,null));
-                CambiaEstado(proceso.getIdentificador().intValue(),"Listo",3);
-                daoProceso.AgregarProceso(NuevaTabla3,idNueva,BurstTime);
+                daopcb.CargarPCB(this, tipo, proceso, -1, -1);
+                DuracionRR.add(new PairTiempo(null, null));
+                CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 3);
+                daoProceso.AgregarProceso(NuevaTabla3, idNueva, BurstTime);
                 tblRR.setModel(NuevaTabla3);
             }
-            AtiendeHijo(proceso,tipo,BurstTime);
+            AtiendeHijo(proceso, tipo, BurstTime);
         }
     }
-    
-    public void AtiendeHijo(dtoProceso procesoHijo, int tipo, int tiempo){
+
+    public void AtiendeHijo(dtoProceso procesoHijo, int tipo, int tiempo) {
         int PosicionTabla;
-        AsignaInicio(procesoHijo.getIdentificador().intValue(),tipo);
-        if(tipo==1){
-            String idNuevo=procesoHijo.getAncestro().toString()+'-'+procesoHijo.getIdentificador().toString();
-            PosicionTabla=BuscaPosicionTabla(idNuevo,1);
-            for(int i=1; i<=tiempo; i++){
+        AsignaInicio(procesoHijo.getIdentificador().intValue(), tipo);
+        if (tipo == 1) {
+            String idNuevo = procesoHijo.getAncestro().toString() + '-' + procesoHijo.getIdentificador().toString();
+            PosicionTabla = BuscaPosicionTabla(idNuevo, 1);
+            for (int i = 1; i <= tiempo; i++) {
                 TimeTot++;
-                CambiaEstado(procesoHijo.getIdentificador().intValue(),"Ejecutando",tipo);
-                MostrarProgreso(i,tiempo,procesoHijo.getIdentificador().intValue(),1);
-                tblFCFS.setValueAt(procesoHijo.getEstadoProceso(),PosicionTabla,3);
-                tblFCFS.setValueAt(String.valueOf(tiempo-i),PosicionTabla,2);
+                CambiaEstado(procesoHijo.getIdentificador().intValue(), "Ejecutando", tipo);
+                MostrarProgreso(i, tiempo, procesoHijo.getIdentificador().intValue(), 1);
+                tblFCFS.setValueAt(procesoHijo.getEstadoProceso(), PosicionTabla, 3);
+                tblFCFS.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
                 Dormir();
             }
-        }else if(tipo==2){
-            String idNuevo=procesoHijo.getAncestro().toString()+'-'+procesoHijo.getIdentificador().toString();
-            PosicionTabla=BuscaPosicionTabla(idNuevo,2);
-            for(int i=1; i<=tiempo; i++){
+        } else if (tipo == 2) {
+            String idNuevo = procesoHijo.getAncestro().toString() + '-' + procesoHijo.getIdentificador().toString();
+            PosicionTabla = BuscaPosicionTabla(idNuevo, 2);
+            for (int i = 1; i <= tiempo; i++) {
                 TimeTot++;
-                CambiaEstado(procesoHijo.getIdentificador().intValue(),"Ejecutando",tipo);
-                MostrarProgreso(i,tiempo,procesoHijo.getIdentificador().intValue(),2);
-                tblSJF.setValueAt(procesoHijo.getEstadoProceso(),PosicionTabla,3);
-                tblSJF.setValueAt(String.valueOf(tiempo-i),PosicionTabla,2);
+                CambiaEstado(procesoHijo.getIdentificador().intValue(), "Ejecutando", tipo);
+                MostrarProgreso(i, tiempo, procesoHijo.getIdentificador().intValue(), 2);
+                tblSJF.setValueAt(procesoHijo.getEstadoProceso(), PosicionTabla, 3);
+                tblSJF.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
                 Dormir();
             }
-        }else{
-            String idNuevo=procesoHijo.getAncestro().toString()+'-'+procesoHijo.getIdentificador().toString();
-            PosicionTabla=BuscaPosicionTabla(idNuevo,3);
-            for(int i=1; i<=tiempo; i++){
+        } else {
+            String idNuevo = procesoHijo.getAncestro().toString() + '-' + procesoHijo.getIdentificador().toString();
+            PosicionTabla = BuscaPosicionTabla(idNuevo, 3);
+            for (int i = 1; i <= tiempo; i++) {
                 TimeTot++;
-                CambiaEstado(procesoHijo.getIdentificador().intValue(),"Ejecutando",tipo);
-                MostrarProgreso(i,tiempo,procesoHijo.getIdentificador().intValue(),3);
-                tblRR.setValueAt(procesoHijo.getEstadoProceso(),PosicionTabla,3);
-                tblRR.setValueAt(String.valueOf(tiempo-i),PosicionTabla,2);
+                CambiaEstado(procesoHijo.getIdentificador().intValue(), "Ejecutando", tipo);
+                MostrarProgreso(i, tiempo, procesoHijo.getIdentificador().intValue(), 3);
+                tblRR.setValueAt(procesoHijo.getEstadoProceso(), PosicionTabla, 3);
+                tblRR.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
                 Dormir();
             }
         }
-        CambiaEstado(procesoHijo.getIdentificador().intValue(),"Terminado",tipo);
-        Borrar(PosicionTabla,tipo);
-        AsignaFin(procesoHijo.getIdentificador().intValue(),tipo);
-        CambioCola=true;
+        CambiaEstado(procesoHijo.getIdentificador().intValue(), "Terminado", tipo);
+        Borrar(PosicionTabla, tipo);
+        AsignaFin(procesoHijo.getIdentificador().intValue(), tipo);
+        CambioCola = true;
     }
-    
-    public static int BuscaPosicionTabla(String idNueva, int tipo){
-        if(tipo==1){
-            for(int i=0; i<tblFCFS.getRowCount(); i++){
-                if(String.valueOf(tblFCFS.getValueAt(i, 0)).equals(idNueva)){
+
+    public static int BuscaPosicionTabla(String idNueva, int tipo) {
+        if (tipo == 1) {
+            for (int i = 0; i < tblFCFS.getRowCount(); i++) {
+                if (String.valueOf(tblFCFS.getValueAt(i, 0)).equals(idNueva)) {
                     return i;
                 }
             }
             return -1;
-        }else if(tipo==2){
-            for(int i=0; i<tblSJF.getRowCount(); i++){
-                if(String.valueOf(tblSJF.getValueAt(i, 0)).equals(idNueva)){
+        } else if (tipo == 2) {
+            for (int i = 0; i < tblSJF.getRowCount(); i++) {
+                if (String.valueOf(tblSJF.getValueAt(i, 0)).equals(idNueva)) {
                     return i;
                 }
             }
             return -1;
-        }else{
-            for(int i=0; i<tblRR.getRowCount(); i++){
-                if(String.valueOf(tblRR.getValueAt(i, 0)).equals(idNueva)){
+        } else {
+            for (int i = 0; i < tblRR.getRowCount(); i++) {
+                if (String.valueOf(tblRR.getValueAt(i, 0)).equals(idNueva)) {
                     return i;
                 }
             }
             return -1;
         }
     }
-    
-     public void Dormir(){
-        try{
+
+    public void Dormir() {
+        try {
             Thread.sleep(200); //Dormir sistema
-        }catch(InterruptedException ex){
-            Logger.getLogger(Ventana_No_Expropiativo.class.getName()).log(Level.SEVERE,null,ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Ventana_No_Expropiativo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void GeneraInterrupcion(int PosicionTabla, int IdProceso, int tipo){
-        Random r =  new Random();
-        if(r.nextInt(100)<5){
+
+    public void GeneraInterrupcion(int PosicionTabla, int IdProceso, int tipo) {
+        Random r = new Random();
+        if (r.nextInt(100) < 5) {
             //existe interrupcion
-            CambiaEstado(IdProceso,"Bloqueado",tipo);
-            if(tipo==1){
-                tblFCFS.setValueAt("Bloqueado por Interrupción", PosicionTabla,3);
-            }else if(tipo==2){
-                tblSJF.setValueAt("Bloqueado por Interrupción", PosicionTabla,3);
-            }else{
-                tblRR.setValueAt("Bloqueado por Interrupción", PosicionTabla,3);
+            CambiaEstado(IdProceso, "Bloqueado", tipo);
+            if (tipo == 1) {
+                tblFCFS.setValueAt("Bloqueado por Interrupción", PosicionTabla, 3);
+            } else if (tipo == 2) {
+                tblSJF.setValueAt("Bloqueado por Interrupción", PosicionTabla, 3);
+            } else {
+                tblRR.setValueAt("Bloqueado por Interrupción", PosicionTabla, 3);
             }
-            int TiempoInterrupcion = r.nextInt(10)+1;
-            IngresarInterrupcion(TiempoInterrupcion,IdProceso,tipo);
-            for(int j=1; j<=TiempoInterrupcion; j++){
-                tblInterrupciones.setValueAt(String.valueOf(TiempoInterrupcion-j),ContadorInterrupciones-1,4);
-                Dormir();
+            int TiempoInterrupcion = r.nextInt(10) + 1;
+            IngresarInterrupcion(TiempoInterrupcion, IdProceso, tipo);
+            if (tipo == 1) {
+                for (int j = 1; j <= TiempoInterrupcion; j++) {
+                    tblInterrupciones_FCFS.setValueAt(String.valueOf(TiempoInterrupcion - j), ContadorInterrupciones_FCFS - 1, 4);
+                    Dormir();
+                }
+                tblInterrupciones_FCFS.setValueAt("Terminado", ContadorInterrupciones_FCFS - 1, 5);
+            } else if (tipo == 2) {
+                for (int j = 1; j <= TiempoInterrupcion; j++) {
+                    tblInterrupciones_SJF.setValueAt(String.valueOf(TiempoInterrupcion - j), ContadorInterrupciones_SJF - 1, 4);
+                    Dormir();
+                }
+                tblInterrupciones_SJF.setValueAt("Terminado", ContadorInterrupciones_SJF - 1, 5);
+            } else {
+                for (int j = 1; j <= TiempoInterrupcion; j++) {
+                    tblInterrupciones_RR.setValueAt(String.valueOf(TiempoInterrupcion - j), ContadorInterrupciones_RR - 1, 4);
+                    Dormir();
+                }
+                tblInterrupciones_RR.setValueAt("Terminado", ContadorInterrupciones_RR - 1, 5);
             }
-            tblInterrupciones.setValueAt("Terminado",ContadorInterrupciones-1,5);
-            CambioCola=true;
+
+            CambioCola = true;
         }
     }
-    
-    public void IngresarInterrupcion(int tiempoInterrupcion, int IdProceso, int tipo){
-        DefaultTableModel modelo=(DefaultTableModel) tblInterrupciones.getModel();
-        ContadorInterrupciones ++;
+
+    public void IngresarInterrupcion(int tiempoInterrupcion, int IdProceso, int tipo) {
+        DefaultTableModel modelo;
         Object[] miTabla = new Object[6];
-        miTabla[0]= ContadorInterrupciones;
-        miTabla[1]= String.valueOf(IdProceso);
-        if(tipo==1){
-            miTabla[2]= String.valueOf("FCFS");
-        }else if(tipo==2){
-            miTabla[2]= String.valueOf("SJF");
-        }else{
-            miTabla[2]= String.valueOf("RR");
+        miTabla[1] = String.valueOf(IdProceso);
+        if (tipo == 1) {
+            ContadorInterrupciones_FCFS++;
+            miTabla[0] = ContadorInterrupciones_FCFS;
+            modelo = (DefaultTableModel) tblInterrupciones_FCFS.getModel();
+            miTabla[2] = String.valueOf("FCFS");
+        } else if (tipo == 2) {
+            ContadorInterrupciones_SJF++;
+            miTabla[0] = ContadorInterrupciones_SJF;
+            modelo = (DefaultTableModel) tblInterrupciones_SJF.getModel();
+            miTabla[2] = String.valueOf("SJF");
+        } else {
+            ContadorInterrupciones_RR++;
+            miTabla[0] = ContadorInterrupciones_RR;
+            modelo = (DefaultTableModel) tblInterrupciones_RR.getModel();
+            miTabla[2] = String.valueOf("RR");
         }
-        miTabla[3]= String.valueOf(tiempoInterrupcion);
-        miTabla[4]= String.valueOf(tiempoInterrupcion);
-        miTabla[5]= "Atendiendo";
+        miTabla[3] = String.valueOf(tiempoInterrupcion);
+        miTabla[4] = String.valueOf(tiempoInterrupcion);
+        miTabla[5] = "Atendiendo";
         modelo.addRow(miTabla);
-        tblInterrupciones.setModel(modelo);
+        if (tipo == 1) {
+            tblInterrupciones_FCFS.setModel(modelo);
+        } else if (tipo == 2) {
+            tblInterrupciones_SJF.setModel(modelo);
+        } else {
+            tblInterrupciones_RR.setModel(modelo);
+        }
+
     }
-    
-    public void ActualizaDescendientes(int IdProceso, int tipo){
+
+    public void ActualizaDescendientes(int IdProceso, int tipo) {
         dtoProceso actualiza = new dtoProceso();
-        daoPCB daopcb = new daoPCB();
+        daoPCB_Expro daopcb = new daoPCB_Expro();
         ArrayList<Integer> nuevaLista = new ArrayList<Integer>();
-        if(tipo==1){
-            actualiza=ProcesosFCFS.get(IdProceso-1);
-            nuevaLista=actualiza.getDescendientes();
+        if (tipo == 1) {
+            actualiza = ProcesosFCFS.get(IdProceso - 1);
+            nuevaLista = actualiza.getDescendientes();
             nuevaLista.add(IdProcesoFCFS);
             actualiza.setDescendientes(nuevaLista);
-            ProcesosFCFS.set(IdProceso-1, actualiza);
-            daopcb.ActualizaDescendientesPCB(ventanaPCB,IdProceso,tipo,IdProcesoFCFS);
-        }else if(tipo==2){
-            actualiza=ProcesosSJF.get(IdProceso-1);
-            nuevaLista=actualiza.getDescendientes();
+            ProcesosFCFS.set(IdProceso - 1, actualiza);
+            daopcb.ActualizaDescendientesPCB(this, IdProceso, tipo, IdProcesoFCFS);
+        } else if (tipo == 2) {
+            actualiza = ProcesosSJF.get(IdProceso - 1);
+            nuevaLista = actualiza.getDescendientes();
             nuevaLista.add(IdProcesoSJF);
             actualiza.setDescendientes(nuevaLista);
-            ProcesosSJF.set(IdProceso-1, actualiza);
-            daopcb.ActualizaDescendientesPCB(ventanaPCB,IdProceso,tipo,IdProcesoSJF);
-        }else{
-            actualiza=ProcesosRR.get(IdProceso-1);
-            nuevaLista=actualiza.getDescendientes();
+            ProcesosSJF.set(IdProceso - 1, actualiza);
+            daopcb.ActualizaDescendientesPCB(this, IdProceso, tipo, IdProcesoSJF);
+        } else {
+            actualiza = ProcesosRR.get(IdProceso - 1);
+            nuevaLista = actualiza.getDescendientes();
             nuevaLista.add(IdProcesoRR);
             actualiza.setDescendientes(nuevaLista);
-            ProcesosRR.set(IdProceso-1, actualiza);
-            daopcb.ActualizaDescendientesPCB(ventanaPCB,IdProceso,tipo,IdProcesoRR);
+            ProcesosRR.set(IdProceso - 1, actualiza);
+            daopcb.ActualizaDescendientesPCB(this, IdProceso, tipo, IdProcesoRR);
         }
     }
-    
-    public void CambiaEstado(int IdProceso, String estado, int tipo){
+
+    public void CambiaEstado(int IdProceso, String estado, int tipo) {
         dtoProceso actualiza = new dtoProceso();
-        daoPCB daopcb= new daoPCB();
-        daopcb.ActualizaEstadoPCB(ventanaPCB,IdProceso,tipo,estado);
-        if(tipo==1){
-            actualiza=ProcesosFCFS.get(IdProceso-1);
+        daoPCB_Expro daopcb = new daoPCB_Expro();
+        daopcb.ActualizaEstadoPCB(this, IdProceso, tipo, estado);
+        if (tipo == 1) {
+            actualiza = ProcesosFCFS.get(IdProceso - 1);
             actualiza.setEstadoProceso(estado);
-            ProcesosFCFS.set(IdProceso-1, actualiza);
-        }else if(tipo==2){
-            actualiza=ProcesosSJF.get(IdProceso-1);
+            ProcesosFCFS.set(IdProceso - 1, actualiza);
+        } else if (tipo == 2) {
+            actualiza = ProcesosSJF.get(IdProceso - 1);
             actualiza.setEstadoProceso(estado);
-            ProcesosSJF.set(IdProceso-1, actualiza);
-        }else{
-            actualiza=ProcesosRR.get(IdProceso-1);
+            ProcesosSJF.set(IdProceso - 1, actualiza);
+        } else {
+            actualiza = ProcesosRR.get(IdProceso - 1);
             actualiza.setEstadoProceso(estado);
-            ProcesosRR.set(IdProceso-1, actualiza);
+            ProcesosRR.set(IdProceso - 1, actualiza);
         }
     }
-    
-    public void MostrarProgreso(int avance, int total, Integer Id, int tipo){
-        int porcentaje=(avance*100)/total;
-        if(tipo==1){
+
+    public void MostrarProgreso(int avance, int total, Integer Id, int tipo) {
+        int porcentaje = (avance * 100) / total;
+        if (tipo == 1) {
             txtIdProcesoFCFS.setText(Id.toString());
-            txtPorcentajeFCFS.setText(String.valueOf(porcentaje+"%"));
+            txtPorcentajeFCFS.setText(String.valueOf(porcentaje + "%"));
             pgrFCFS.setValue(porcentaje);
             pgrFCFS.repaint();
-        }else if(tipo==2){
+        } else if (tipo == 2) {
             txtIdProcesoSJF.setText(Id.toString());
-            txtPorcentajeSJF.setText(String.valueOf(porcentaje+"%"));
+            txtPorcentajeSJF.setText(String.valueOf(porcentaje + "%"));
             pgrSJF.setValue(porcentaje);
             pgrSJF.repaint();
-        }else{
+        } else {
             txtIdProcesoRR.setText(Id.toString());
-            txtPorcentajeRR.setText(String.valueOf(porcentaje+"%"));
+            txtPorcentajeRR.setText(String.valueOf(porcentaje + "%"));
             pgrRR.setValue(porcentaje);
             pgrRR.repaint();
         }
     }
-    
-    public void AsignaInicio(int Id, int tipo){
+
+    public void AsignaInicio(int Id, int tipo) {
         PairTiempo par = new PairTiempo();
-        daoPCB daopcb= new daoPCB();
-        daopcb.ActualizaEstadisticaINI(VentanaEstadisticas,Id,tipo,TimeTot);
-        if(tipo==1){
-            par=DuracionFCFS.get(Id-1);
+        daoPCB_Expro daopcb = new daoPCB_Expro();
+        daopcb.ActualizaEstadisticaINI(VentanaEstadisticas, Id, tipo, TimeTot);
+        if (tipo == 1) {
+            par = DuracionFCFS.get(Id - 1);
             par.setInicio(TimeTot);
-            DuracionFCFS.set(Id-1, par);
-            T_INI_FCFS+=TimeTot;
+            DuracionFCFS.set(Id - 1, par);
+            T_INI_FCFS += TimeTot;
             cnt_INI_FCFS++;
-            VentanaEstadisticas.txtEsperaFCFS.setText(String.valueOf((T_INI_FCFS*1.0)/(cnt_INI_FCFS*1.0)));
-        }else if(tipo==2){
-            par=DuracionSJF.get(Id-1);
+            VentanaEstadisticas.txtEsperaFCFS.setText(String.valueOf((T_INI_FCFS * 1.0) / (cnt_INI_FCFS * 1.0)));
+        } else if (tipo == 2) {
+            par = DuracionSJF.get(Id - 1);
             par.setInicio(TimeTot);
-            DuracionSJF.set(Id-1, par);
-            T_INI_SJF+=TimeTot;
+            DuracionSJF.set(Id - 1, par);
+            T_INI_SJF += TimeTot;
             cnt_INI_SJF++;
-            VentanaEstadisticas.txtEsperaSJF.setText(String.valueOf((T_INI_SJF*1.0)/(cnt_INI_SJF*1.0)));
-        }else{
-            par=DuracionRR.get(Id-1);
+            VentanaEstadisticas.txtEsperaSJF.setText(String.valueOf((T_INI_SJF * 1.0) / (cnt_INI_SJF * 1.0)));
+        } else {
+            par = DuracionRR.get(Id - 1);
             par.setInicio(TimeTot);
-            DuracionRR.set(Id-1, par);
-            T_INI_RR+=TimeTot;
+            DuracionRR.set(Id - 1, par);
+            T_INI_RR += TimeTot;
             cnt_INI_RR++;
-            VentanaEstadisticas.txtEsperaRR.setText(String.valueOf((T_INI_RR*1.0)/(cnt_INI_RR*1.0)));
+            VentanaEstadisticas.txtEsperaRR.setText(String.valueOf((T_INI_RR * 1.0) / (cnt_INI_RR * 1.0)));
         }
-        
+
     }
-    
-    public void AsignaFin(int Id, int tipo){
+
+    public void AsignaFin(int Id, int tipo) {
         PairTiempo par = new PairTiempo();
-        daoPCB daopcb= new daoPCB();
-        daopcb.ActualizaEstadisticaFIN(VentanaEstadisticas,Id,tipo,TimeTot);
-        if(tipo==1){
-            int inicio=DuracionFCFS.get(Id-1).getInicio().intValue();
-            par=DuracionFCFS.get(Id-1);
+        daoPCB_Expro daopcb = new daoPCB_Expro();
+        daopcb.ActualizaEstadisticaFIN(VentanaEstadisticas, Id, tipo, TimeTot);
+        if (tipo == 1) {
+            int inicio = DuracionFCFS.get(Id - 1).getInicio().intValue();
+            par = DuracionFCFS.get(Id - 1);
             par.setFin(TimeTot);
-            DuracionFCFS.set(Id-1, par);
-            T_FIN_FCFS+=TimeTot;
+            DuracionFCFS.set(Id - 1, par);
+            T_FIN_FCFS += TimeTot;
             cnt_FIN_FCFS++;
-            VentanaEstadisticas.txtRetornoFCFS.setText(String.valueOf((T_FIN_FCFS*1.0)/(cnt_FIN_FCFS*1.0)));
-        }else if(tipo==2){
-            int inicio=DuracionSJF.get(Id-1).getInicio().intValue();
-            par=DuracionSJF.get(Id-1);
+            VentanaEstadisticas.txtRetornoFCFS.setText(String.valueOf((T_FIN_FCFS * 1.0) / (cnt_FIN_FCFS * 1.0)));
+        } else if (tipo == 2) {
+            int inicio = DuracionSJF.get(Id - 1).getInicio().intValue();
+            par = DuracionSJF.get(Id - 1);
             par.setFin(TimeTot);
-            DuracionSJF.set(Id-1, par);
-            T_FIN_SJF+=TimeTot;
+            DuracionSJF.set(Id - 1, par);
+            T_FIN_SJF += TimeTot;
             cnt_FIN_SJF++;
-            VentanaEstadisticas.txtRetornoSJF.setText(String.valueOf((T_FIN_SJF*1.0)/(cnt_FIN_SJF*1.0)));
-        }else{
-            int inicio=DuracionRR.get(Id-1).getInicio().intValue();
-            par=DuracionRR.get(Id-1);
+            VentanaEstadisticas.txtRetornoSJF.setText(String.valueOf((T_FIN_SJF * 1.0) / (cnt_FIN_SJF * 1.0)));
+        } else {
+            int inicio = DuracionRR.get(Id - 1).getInicio().intValue();
+            par = DuracionRR.get(Id - 1);
             par.setFin(TimeTot);
-            DuracionRR.set(Id-1, par);
-            T_FIN_RR+=TimeTot;
+            DuracionRR.set(Id - 1, par);
+            T_FIN_RR += TimeTot;
             cnt_FIN_RR++;
-            VentanaEstadisticas.txtRetornoSJF.setText(String.valueOf((T_FIN_RR*1.0)/(cnt_FIN_RR*1.0)));
+            VentanaEstadisticas.txtRetornoSJF.setText(String.valueOf((T_FIN_RR * 1.0) / (cnt_FIN_RR * 1.0)));
         }
     }
-    
-    public void IngresaEstadistica(int id, int burst, int tipo){
-        DefaultTableModel modelo1=(DefaultTableModel) VentanaEstadisticas.tblEstadisticaFCFS.getModel();
-        DefaultTableModel modelo2=(DefaultTableModel) VentanaEstadisticas.tblEstadisticaSJF.getModel();
-        DefaultTableModel modelo3=(DefaultTableModel) VentanaEstadisticas.tblEstadisticaRR.getModel();
+
+    public void IngresaEstadistica(int id, int burst, int tipo) {
+        DefaultTableModel modelo1 = (DefaultTableModel) VentanaEstadisticas.tblEstadisticaFCFS.getModel();
+        DefaultTableModel modelo2 = (DefaultTableModel) VentanaEstadisticas.tblEstadisticaSJF.getModel();
+        DefaultTableModel modelo3 = (DefaultTableModel) VentanaEstadisticas.tblEstadisticaRR.getModel();
         Object[] miTabla = new Object[4];
-        miTabla[0]= String.valueOf(id);
-        miTabla[1]= String.valueOf(burst);
-        miTabla[2]= String.valueOf("-1");
-        miTabla[3]= String.valueOf("-1");
-        if(tipo==1){
+        miTabla[0] = String.valueOf(id);
+        miTabla[1] = String.valueOf(burst);
+        miTabla[2] = String.valueOf("-1");
+        miTabla[3] = String.valueOf("-1");
+        if (tipo == 1) {
             modelo1.addRow(miTabla);
             VentanaEstadisticas.tblEstadisticaFCFS.setModel(modelo1);
-        }else if(tipo==2){
+        } else if (tipo == 2) {
             modelo2.addRow(miTabla);
             VentanaEstadisticas.tblEstadisticaSJF.setModel(modelo2);
-        }else{
+        } else {
             modelo3.addRow(miTabla);
             VentanaEstadisticas.tblEstadisticaRR.setModel(modelo3);
-        }        
+        }
     }
-    
-    public void MuestraUsoCPU(){
-        VentanaEstadisticas.txtCPUFCFS.setText(String.valueOf((BurstFCFS*100.0)/((BurstFCFS+BurstSJF+BurstRR)*1.0))+'%');
-        VentanaEstadisticas.txtCPUSJF.setText(String.valueOf((BurstSJF*100.0)/((BurstFCFS+BurstSJF+BurstRR)*1.0))+'%');
-        VentanaEstadisticas.txtCPURR.setText(String.valueOf((BurstRR*100.0)/((BurstFCFS+BurstSJF+BurstRR)*1.0))+'%');
+
+    public void MuestraUsoCPU() {
+        VentanaEstadisticas.txtCPUFCFS.setText(String.valueOf((BurstFCFS * 100.0) / ((BurstFCFS + BurstSJF + BurstRR) * 1.0)) + '%');
+        VentanaEstadisticas.txtCPUSJF.setText(String.valueOf((BurstSJF * 100.0) / ((BurstFCFS + BurstSJF + BurstRR) * 1.0)) + '%');
+        VentanaEstadisticas.txtCPURR.setText(String.valueOf((BurstRR * 100.0) / ((BurstFCFS + BurstSJF + BurstRR) * 1.0)) + '%');
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1601,12 +1627,12 @@ public class Ventana_Expropiativo extends javax.swing.JFrame {
     private javax.swing.JProgressBar pgrRR;
     private javax.swing.JProgressBar pgrSJF;
     public static javax.swing.JTable tblFCFS;
-    public static javax.swing.JTable tblInterrupciones;
-    public static javax.swing.JTable tblInterrupciones1;
-    public static javax.swing.JTable tblInterrupciones2;
-    public static javax.swing.JTable tblPCBFCFS;
-    public static javax.swing.JTable tblPCBRR;
-    public static javax.swing.JTable tblPCBSJF;
+    public static javax.swing.JTable tblInterrupciones_FCFS;
+    public static javax.swing.JTable tblInterrupciones_RR;
+    public static javax.swing.JTable tblInterrupciones_SJF;
+    public static javax.swing.JTable tblPCB_FCFS;
+    public static javax.swing.JTable tblPCB_RR;
+    public static javax.swing.JTable tblPCB_SJF;
     public static javax.swing.JTable tblRR;
     public static javax.swing.JTable tblSJF;
     private javax.swing.JTextField txtBurstTime;

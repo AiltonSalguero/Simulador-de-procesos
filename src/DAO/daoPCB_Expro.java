@@ -7,19 +7,22 @@ package DAO;
 
 import DTO.dtoProceso;
 import Ventana.Estadisticas;
-import Ventana.PCB;
+
 import java.awt.Color;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import Ventana.Ventana_Expropiativo;
+import javax.swing.JFrame;
 
 /**
  *
  * @author User
  */
-public class daoPCB {
-    public static void CargarPCB(PCB pcb, int tipo, dtoProceso proceso, int ini, int fin){
+public class daoPCB_Expro {
+    public static void CargarPCB(Ventana_Expropiativo ventana, int tipo, dtoProceso proceso, int ini, int fin){
         if(tipo==1){
-            pcb.tblPCBFCFS.setBackground(Color.WHITE);
-            DefaultTableModel modelo = (DefaultTableModel) pcb.tblPCBFCFS.getModel();
+            ventana.tblPCB_FCFS.setBackground(Color.WHITE);
+            DefaultTableModel modelo = (DefaultTableModel) ventana.tblPCB_FCFS.getModel();
             Object[] miTabla = new Object[11];
             miTabla[0]=proceso.getIdentificador();
             miTabla[1]=proceso.getEstadoCPU();
@@ -41,10 +44,10 @@ public class daoPCB {
             }
             miTabla[10]=aux;
             modelo.addRow(miTabla);
-            pcb.tblPCBFCFS.setModel(modelo);
+            ventana.tblPCB_FCFS.setModel(modelo);
         }else if(tipo==2){
-            pcb.tblPCBSJF.setBackground(Color.WHITE);
-            DefaultTableModel modelo = (DefaultTableModel) pcb.tblPCBSJF.getModel();
+            ventana.tblPCB_SJF.setBackground(Color.WHITE);
+            DefaultTableModel modelo = (DefaultTableModel) ventana.tblPCB_SJF.getModel();
             Object[] miTabla = new Object[11];
             miTabla[0]=proceso.getIdentificador();
             miTabla[1]=proceso.getEstadoCPU();
@@ -66,10 +69,10 @@ public class daoPCB {
             }
             miTabla[10]=aux;
             modelo.addRow(miTabla);
-            pcb.tblPCBSJF.setModel(modelo);
+            ventana.tblPCB_SJF.setModel(modelo);
         }else{
-            pcb.tblPCBRR.setBackground(Color.WHITE);
-            DefaultTableModel modelo = (DefaultTableModel) pcb.tblPCBRR.getModel();
+            ventana.tblPCB_RR.setBackground(Color.WHITE);
+            DefaultTableModel modelo = (DefaultTableModel) ventana.tblPCB_RR.getModel();
             Object[] miTabla = new Object[11];
             miTabla[0]=proceso.getIdentificador();
             miTabla[1]=proceso.getEstadoCPU();
@@ -91,34 +94,34 @@ public class daoPCB {
             }
             miTabla[10]=aux;
             modelo.addRow(miTabla);
-            pcb.tblPCBRR.setModel(modelo);
+            ventana.tblPCB_RR.setModel(modelo);
         }
     }
     
-    public static void ActualizaEstadoPCB(PCB pcb, int pos, int tipo, String estado){
+    public static void ActualizaEstadoPCB(Ventana_Expropiativo ventana, int pos, int tipo, String estado){
         if(tipo==1){
-            pcb.tblPCBFCFS.setValueAt(estado,pos-1,4);
+            ventana.tblPCB_FCFS.setValueAt(estado,pos-1,4);
         }else if(tipo==2){
-            pcb.tblPCBSJF.setValueAt(estado,pos-1,4);
+            ventana.tblPCB_SJF.setValueAt(estado,pos-1,4);
         }else{
-            pcb.tblPCBRR.setValueAt(estado,pos-1,4);
+            ventana.tblPCB_RR.setValueAt(estado,pos-1,4);
         }
     }
     
-    public static void ActualizaDescendientesPCB(PCB pcb, int pos, int tipo, int descendiente){
+    public static void ActualizaDescendientesPCB(Ventana_Expropiativo ventana, int pos, int tipo, int descendiente){
         String aux="";
         if(tipo==1){
-            aux=pcb.tblPCBFCFS.getValueAt(pos-1,10).toString();
+            aux=ventana.tblPCB_FCFS.getValueAt(pos-1,10).toString();
             aux+='-'+String.valueOf(descendiente);
-            pcb.tblPCBFCFS.setValueAt(aux, pos-1, 10);
+            ventana.tblPCB_FCFS.setValueAt(aux, pos-1, 10);
         }else if(tipo==2){
-            aux=pcb.tblPCBSJF.getValueAt(pos-1,10).toString();
+            aux=ventana.tblPCB_SJF.getValueAt(pos-1,10).toString();
             aux+='-'+String.valueOf(descendiente);
-            pcb.tblPCBSJF.setValueAt(aux, pos-1, 10);
+            ventana.tblPCB_SJF.setValueAt(aux, pos-1, 10);
         }else{
-            aux=pcb.tblPCBRR.getValueAt(pos-1,10).toString();
+            aux=ventana.tblPCB_RR.getValueAt(pos-1,10).toString();
             aux+='-'+String.valueOf(descendiente);
-            pcb.tblPCBRR.setValueAt(aux, pos-1, 10);
+            ventana.tblPCB_RR.setValueAt(aux, pos-1, 10);
         }
     }
     

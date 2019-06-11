@@ -5,7 +5,7 @@
  */
 package Ventana;
 
-import DAO.daoPCB;
+import DAO.daoPCB_NoExp;
 import DAO.daoProceso;
 import DTO.PairFCFS;
 import DTO.PairRR;
@@ -152,6 +152,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         jLabel14 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
         tblInterrupciones1 = new javax.swing.JTable();
+        jLabel15 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tblPCB_FCFS = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -166,6 +169,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         jLabel13 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         tblInterrupciones2 = new javax.swing.JTable();
+        jLabel16 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tblPCB_SJF = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -180,6 +186,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         jLabel8 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblInterrupciones3 = new javax.swing.JTable();
+        jLabel17 = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        tblPCB_RR = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -304,6 +313,20 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         ));
         jScrollPane8.setViewportView(tblInterrupciones1);
 
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel15.setText("First Come First Served (FCFS)");
+
+        tblPCB_FCFS.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "#Proceso", "EstadoCPU", "Procesador", "Memoria", "Estado", "Rescursos", "Planificador", "Prioridad", "Contabilizacion", "Ancestro", "Descendientes"
+            }
+        ));
+        jScrollPane5.setViewportView(tblPCB_FCFS);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -322,28 +345,45 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                             .addComponent(jLabelPorcentaje)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(txtPorcentajeFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel5)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel9)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtCntFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(904, Short.MAX_VALUE))
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel9)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtCntFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel5))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(86, 86, 86)
+                                .addComponent(jLabel15)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addGap(199, 199, 199))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(txtCntFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(txtCntFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -415,6 +455,20 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         ));
         jScrollPane7.setViewportView(tblInterrupciones2);
 
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel16.setText("Shortest Job First (SJF)");
+
+        tblPCB_SJF.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "#Proceso", "EstadoCPU", "Procesador", "Memoria", "Estado", "Rescursos", "Planificador", "Prioridad", "Contabilizacion", "Ancestro", "Descendientes"
+            }
+        ));
+        jScrollPane6.setViewportView(tblPCB_SJF);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -422,28 +476,35 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(236, 236, 236))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(pgrSJF, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabelNProceso1)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtIdProcesoSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabelPorcentaje2)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtPorcentajeSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addGap(197, 197, 197)
+                                .addComponent(txtCntSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 862, Short.MAX_VALUE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel16)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(jLabel13)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel6)
-                            .addGap(236, 236, 236))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(pgrSJF, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabelNProceso1)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtIdProcesoSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabelPorcentaje2)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtPorcentajeSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel10)
-                            .addGap(197, 197, 197)
-                            .addComponent(txtCntSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 904, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -451,20 +512,27 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 .addGap(6, 6, 6)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(txtCntSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelNProceso1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtIdProcesoSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelPorcentaje2)
-                    .addComponent(txtPorcentajeSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(txtCntSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelNProceso1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtIdProcesoSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelPorcentaje2)
+                            .addComponent(txtPorcentajeSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(5, 5, 5)
                 .addComponent(pgrSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -519,6 +587,20 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         ));
         jScrollPane4.setViewportView(tblInterrupciones3);
 
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel17.setText("Round Robin (RR)");
+
+        tblPCB_RR.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "#Proceso", "EstadoCPU", "Procesador", "Memoria", "Estado", "Rescursos", "Planificador", "Prioridad", "Contabilizacion", "Ancestro", "Descendientes"
+            }
+        ));
+        jScrollPane9.setViewportView(tblPCB_RR);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -528,31 +610,39 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(pgrRR, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabelNProceso2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtIdProcesoRR, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(22, 22, 22)
+                                        .addComponent(jLabelPorcentaje1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtPorcentajeRR, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(59, 59, 59)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 833, Short.MAX_VALUE)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel17)
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addContainerGap())
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
                                     .addComponent(jLabel11)))
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 381, Short.MAX_VALUE)
                         .addComponent(txtCntRR, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(922, 922, 922))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pgrRR, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabelNProceso2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtIdProcesoRR, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(22, 22, 22)
-                                .addComponent(jLabelPorcentaje1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtPorcentajeRR, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(922, 922, 922))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -564,18 +654,24 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                     .addComponent(jLabel11)
                     .addComponent(txtCntRR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelNProceso2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtIdProcesoRR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPorcentajeRR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabelPorcentaje1))
-                .addGap(5, 5, 5)
-                .addComponent(pgrRR, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabelNProceso2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtIdProcesoRR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPorcentajeRR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabelPorcentaje1))
+                        .addGap(5, 5, 5)
+                        .addComponent(pgrRR, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -696,7 +792,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         if (Quantum > 0) {
             // Crea el objeto Proceso
             dtoProceso proceso = new dtoProceso();
-            daoPCB daopcb = new daoPCB();
+            daoPCB_NoExp daopcb = new daoPCB_NoExp();
             if (Contador % 3 == 1) {
                 proceso.setIdentificador(IdProcesoFCFS);
                 txtCntFCFS.setText(String.valueOf(cntFCFS));
@@ -731,7 +827,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
             if (Contador % 3 == 1) {
                 BurstFCFS += BurstTime;
                 ProcesosFCFS.add(proceso);
-                daopcb.CargarPCB(ventanaPCB, 1, proceso, -1, -1);
+                daopcb.CargarPCB(this, 1, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 1);
                 FCFS.add(new PairFCFS(BurstTime, proceso.getIdentificador(), 0));
                 DuracionFCFS.add(new PairTiempo(null, null));
@@ -740,7 +836,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
             } else if (Contador % 3 == 2) {
                 BurstSJF += BurstTime;
                 ProcesosSJF.add(proceso);
-                daopcb.CargarPCB(ventanaPCB, 2, proceso, -1, -1);
+                daopcb.CargarPCB(this, 2, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 2);
                 SJF.add(new PairSJF(BurstTime, 0, proceso.getIdentificador()));
                 DuracionSJF.add(new PairTiempo(null, null));
@@ -752,7 +848,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                     UltimoRR = new PairRR(BurstTime, proceso.getIdentificador(), BurstTime);
                 }
                 ProcesosRR.add(proceso);
-                daopcb.CargarPCB(ventanaPCB, 3, proceso, -1, -1);
+                daopcb.CargarPCB(this, 3, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 3);
                 RR.add(new PairRR(BurstTime, proceso.getIdentificador(), BurstTime));
                 DuracionRR.add(new PairTiempo(null, null));
@@ -808,7 +904,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         if (Quantum > 0) {
             for (int i = 0; i < 10; i++) {
                 dtoProceso proceso = new dtoProceso();
-                daoPCB daopcb = new daoPCB();
+                daoPCB_NoExp daopcb = new daoPCB_NoExp();
                 Random r = new Random();
 
                 BurstTime = 10 + r.nextInt(190);
@@ -847,7 +943,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
 
                 BurstFCFS += BurstTime;
                 ProcesosFCFS.add(proceso);
-                daopcb.CargarPCB(ventanaPCB, 1, proceso, -1, -1);
+                daopcb.CargarPCB(this, 1, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 1);
                 FCFS.add(new PairFCFS(BurstTime, proceso.getIdentificador(), 0));
                 DuracionFCFS.add(new PairTiempo(null, null));
@@ -856,7 +952,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
 
                 BurstSJF += BurstTime;
                 ProcesosSJF.add(proceso);
-                daopcb.CargarPCB(ventanaPCB, 2, proceso, -1, -1);
+                daopcb.CargarPCB(this, 2, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 2);
                 SJF.add(new PairSJF(BurstTime, 0, proceso.getIdentificador()));
                 DuracionSJF.add(new PairTiempo(null, null));
@@ -868,7 +964,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                     UltimoRR = new PairRR(BurstTime, proceso.getIdentificador(), BurstTime);
                 }
                 ProcesosRR.add(proceso);
-                daopcb.CargarPCB(ventanaPCB, 3, proceso, -1, -1);
+                daopcb.CargarPCB(this, 3, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 3);
                 RR.add(new PairRR(BurstTime, proceso.getIdentificador(), BurstTime));
                 DuracionRR.add(new PairTiempo(null, null));
@@ -1064,7 +1160,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
 
     public void GeneraHijo(int PosicionTabla, int IdProceso, int tipo) {
         Random r = new Random();
-        daoPCB daopcb = new daoPCB();
+        daoPCB_NoExp daopcb = new daoPCB_NoExp();
         if (r.nextInt(100) < 5) {
             ActualizaDescendientes(IdProceso, tipo);
             CambiaEstado(IdProceso, "Bloqueado", tipo);
@@ -1109,7 +1205,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
             if (tipo == 1) {
                 DefaultTableModel NuevaTabla1 = (DefaultTableModel) tblFCFS.getModel();
                 ProcesosFCFS.add(proceso);
-                daopcb.CargarPCB(ventanaPCB, tipo, proceso, -1, -1);
+                daopcb.CargarPCB(this, tipo, proceso, -1, -1);
                 DuracionFCFS.add(new PairTiempo(null, null));
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 1);
                 daoProceso.AgregarProceso(NuevaTabla1, idNueva, BurstTime);
@@ -1117,7 +1213,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
             } else if (tipo == 2) {
                 DefaultTableModel NuevaTabla2 = (DefaultTableModel) tblSJF.getModel();
                 ProcesosSJF.add(proceso);
-                daopcb.CargarPCB(ventanaPCB, tipo, proceso, -1, -1);
+                daopcb.CargarPCB(this, tipo, proceso, -1, -1);
                 DuracionSJF.add(new PairTiempo(null, null));
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 2);
                 daoProceso.AgregarProceso(NuevaTabla2, idNueva, BurstTime);
@@ -1125,7 +1221,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
             } else {
                 DefaultTableModel NuevaTabla3 = (DefaultTableModel) tblRR.getModel();
                 ProcesosRR.add(proceso);
-                daopcb.CargarPCB(ventanaPCB, tipo, proceso, -1, -1);
+                daopcb.CargarPCB(this, tipo, proceso, -1, -1);
                 DuracionRR.add(new PairTiempo(null, null));
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 3);
                 daoProceso.AgregarProceso(NuevaTabla3, idNueva, BurstTime);
@@ -1288,7 +1384,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
 
     public void ActualizaDescendientes(int IdProceso, int tipo) {
         dtoProceso actualiza = new dtoProceso();
-        daoPCB daopcb = new daoPCB();
+        daoPCB_NoExp daopcb = new daoPCB_NoExp();
         ArrayList<Integer> nuevaLista = new ArrayList<Integer>();
         if (tipo == 1) {
             actualiza = ProcesosFCFS.get(IdProceso - 1);
@@ -1296,28 +1392,28 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
             nuevaLista.add(IdProcesoFCFS);
             actualiza.setDescendientes(nuevaLista);
             ProcesosFCFS.set(IdProceso - 1, actualiza);
-            daopcb.ActualizaDescendientesPCB(ventanaPCB, IdProceso, tipo, IdProcesoFCFS);
+            daopcb.ActualizaDescendientesPCB(this, IdProceso, tipo, IdProcesoFCFS);
         } else if (tipo == 2) {
             actualiza = ProcesosSJF.get(IdProceso - 1);
             nuevaLista = actualiza.getDescendientes();
             nuevaLista.add(IdProcesoSJF);
             actualiza.setDescendientes(nuevaLista);
             ProcesosSJF.set(IdProceso - 1, actualiza);
-            daopcb.ActualizaDescendientesPCB(ventanaPCB, IdProceso, tipo, IdProcesoSJF);
+            daopcb.ActualizaDescendientesPCB(this, IdProceso, tipo, IdProcesoSJF);
         } else {
             actualiza = ProcesosRR.get(IdProceso - 1);
             nuevaLista = actualiza.getDescendientes();
             nuevaLista.add(IdProcesoRR);
             actualiza.setDescendientes(nuevaLista);
             ProcesosRR.set(IdProceso - 1, actualiza);
-            daopcb.ActualizaDescendientesPCB(ventanaPCB, IdProceso, tipo, IdProcesoRR);
+            daopcb.ActualizaDescendientesPCB(this, IdProceso, tipo, IdProcesoRR);
         }
     }
 
     public void CambiaEstado(int IdProceso, String estado, int tipo) {
         dtoProceso actualiza = new dtoProceso();
-        daoPCB daopcb = new daoPCB();
-        daopcb.ActualizaEstadoPCB(ventanaPCB, IdProceso, tipo, estado);
+        daoPCB_NoExp daopcb = new daoPCB_NoExp();
+        daopcb.ActualizaEstadoPCB(this, IdProceso, tipo, estado);
         if (tipo == 1) {
             actualiza = ProcesosFCFS.get(IdProceso - 1);
             actualiza.setEstadoProceso(estado);
@@ -1355,7 +1451,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
 
     public void AsignaInicio(int Id, int tipo) {
         PairTiempo par = new PairTiempo();
-        daoPCB daopcb = new daoPCB();
+        daoPCB_NoExp daopcb = new daoPCB_NoExp();
         daopcb.ActualizaEstadisticaINI(VentanaEstadisticas, Id, tipo, TimeTot);
         if (tipo == 1) {
             par = DuracionFCFS.get(Id - 1);
@@ -1384,7 +1480,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
 
     public void AsignaFin(int Id, int tipo) {
         PairTiempo par = new PairTiempo();
-        daoPCB daopcb = new daoPCB();
+        daoPCB_NoExp daopcb = new daoPCB_NoExp();
         daopcb.ActualizaEstadisticaFIN(VentanaEstadisticas, Id, tipo, TimeTot);
         if (tipo == 1) {
             int inicio = DuracionFCFS.get(Id - 1).getInicio().intValue();
@@ -1453,6 +1549,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1474,8 +1573,11 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JProgressBar pgrFCFS;
     private javax.swing.JProgressBar pgrRR;
@@ -1484,6 +1586,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
     public static javax.swing.JTable tblInterrupciones1;
     public static javax.swing.JTable tblInterrupciones2;
     public static javax.swing.JTable tblInterrupciones3;
+    public static javax.swing.JTable tblPCB_FCFS;
+    public static javax.swing.JTable tblPCB_RR;
+    public static javax.swing.JTable tblPCB_SJF;
     public static javax.swing.JTable tblRR;
     public static javax.swing.JTable tblSJF;
     private javax.swing.JTextField txtBurstTime;
