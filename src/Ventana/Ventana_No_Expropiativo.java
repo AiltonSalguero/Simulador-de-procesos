@@ -49,7 +49,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
     public static int BurstTime;
     public static int Quantum = -1;//Carga el quantum en ejecución
     //interrupciones
-    public static int ContadorInterrupciones = 0;
+    public static int ContadorInterrupciones_FCFS = 0;
+    public static int ContadorInterrupciones_SJF = 0;
+    public static int ContadorInterrupciones_RR = 0;
     public static boolean primera = true;//para interrupciones y procesos
     public PCB ventanaPCB = new PCB();
 
@@ -151,7 +153,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         pgrFCFS = new javax.swing.JProgressBar();
         jLabel14 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
-        tblInterrupciones1 = new javax.swing.JTable();
+        tblInterrupciones_FCFS = new javax.swing.JTable();
         jLabel15 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblPCB_FCFS = new javax.swing.JTable();
@@ -168,7 +170,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         pgrSJF = new javax.swing.JProgressBar();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        tblInterrupciones2 = new javax.swing.JTable();
+        tblInterrupciones_SJF = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         tblPCB_SJF = new javax.swing.JTable();
@@ -185,7 +187,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         txtPorcentajeRR = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        tblInterrupciones3 = new javax.swing.JTable();
+        tblInterrupciones_RR = new javax.swing.JTable();
         jLabel17 = new javax.swing.JLabel();
         jScrollPane9 = new javax.swing.JScrollPane();
         tblPCB_RR = new javax.swing.JTable();
@@ -303,7 +305,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel14.setText("INTERRUPCIONES");
 
-        tblInterrupciones1.setModel(new javax.swing.table.DefaultTableModel(
+        tblInterrupciones_FCFS.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -311,7 +313,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 "#Interrupcion", "Proceso", "Tipo", "Duración", "Restante", "Estado"
             }
         ));
-        jScrollPane8.setViewportView(tblInterrupciones1);
+        jScrollPane8.setViewportView(tblInterrupciones_FCFS);
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(0, 51, 204));
@@ -445,7 +447,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel13.setText("INTERRUPCIONES");
 
-        tblInterrupciones2.setModel(new javax.swing.table.DefaultTableModel(
+        tblInterrupciones_SJF.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -453,7 +455,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 "#Interrupcion", "Proceso", "Tipo", "Duración", "Restante", "Estado"
             }
         ));
-        jScrollPane7.setViewportView(tblInterrupciones2);
+        jScrollPane7.setViewportView(tblInterrupciones_SJF);
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(0, 0, 204));
@@ -577,7 +579,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel8.setText("INTERRUPCIONES");
 
-        tblInterrupciones3.setModel(new javax.swing.table.DefaultTableModel(
+        tblInterrupciones_RR.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -585,7 +587,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 "#Interrupcion", "Proceso", "Tipo", "Duración", "Restante", "Estado"
             }
         ));
-        jScrollPane4.setViewportView(tblInterrupciones3);
+        jScrollPane4.setViewportView(tblInterrupciones_RR);
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(0, 0, 204));
@@ -1322,43 +1324,47 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 int TiempoInterrupcion = r.nextInt(10) + 1;
                 IngresarInterrupcion(TiempoInterrupcion, IdProceso, tipo);
                 for (int j = 1; j <= TiempoInterrupcion; j++) {
-                    tblInterrupciones1.setValueAt(String.valueOf(TiempoInterrupcion - j), ContadorInterrupciones - 1, 4);
+                    tblInterrupciones_FCFS.setValueAt(String.valueOf(TiempoInterrupcion - j), ContadorInterrupciones_FCFS - 1, 4);
                     Dormir();
                 }
-                tblInterrupciones1.setValueAt("Terminado", ContadorInterrupciones - 1, 5);
+                tblInterrupciones_FCFS.setValueAt("Terminado", ContadorInterrupciones_FCFS - 1, 5);
             } else if (tipo == 2) {
                 tblSJF.setValueAt("Bloqueado por Interrupción", PosicionTabla, 3);
                 int TiempoInterrupcion = r.nextInt(10) + 1;
                 IngresarInterrupcion(TiempoInterrupcion, IdProceso, tipo);
                 for (int j = 1; j <= TiempoInterrupcion; j++) {
-                    tblInterrupciones2.setValueAt(String.valueOf(TiempoInterrupcion - j), ContadorInterrupciones - 1, 4);
+                    tblInterrupciones_SJF.setValueAt(String.valueOf(TiempoInterrupcion - j), ContadorInterrupciones_SJF - 1, 4);
                     Dormir();
                 }
-                tblInterrupciones2.setValueAt("Terminado", ContadorInterrupciones - 1, 5);
+                tblInterrupciones_SJF.setValueAt("Terminado", ContadorInterrupciones_SJF - 1, 5);
             } else {
                 tblRR.setValueAt("Bloqueado por Interrupción", PosicionTabla, 3);
                 int TiempoInterrupcion = r.nextInt(10) + 1;
                 IngresarInterrupcion(TiempoInterrupcion, IdProceso, tipo);
                 for (int j = 1; j <= TiempoInterrupcion; j++) {
-                    tblInterrupciones3.setValueAt(String.valueOf(TiempoInterrupcion - j), ContadorInterrupciones - 1, 4);
+                    tblInterrupciones_RR.setValueAt(String.valueOf(TiempoInterrupcion - j), ContadorInterrupciones_RR - 1, 4);
                     Dormir();
                 }
-                tblInterrupciones3.setValueAt("Terminado", ContadorInterrupciones - 1, 5);
+                tblInterrupciones_RR.setValueAt("Terminado", ContadorInterrupciones_RR - 1, 5);
             }
 
         }
     }
 
     public void IngresarInterrupcion(int tiempoInterrupcion, int IdProceso, int tipo) {
-        ContadorInterrupciones++;
         Object[] miTabla = new Object[6];
-        miTabla[0] = ContadorInterrupciones;
         miTabla[1] = String.valueOf(IdProceso);
         if (tipo == 1) {
+            ContadorInterrupciones_FCFS++;
+            miTabla[0] = ContadorInterrupciones_FCFS;
             miTabla[2] = String.valueOf("FCFS");
         } else if (tipo == 2) {
+            ContadorInterrupciones_SJF++;
+            miTabla[0] = ContadorInterrupciones_SJF;
             miTabla[2] = String.valueOf("SJF");
         } else {
+            ContadorInterrupciones_RR++;
+            miTabla[0] = ContadorInterrupciones_RR;
             miTabla[2] = String.valueOf("RR");
         }
         miTabla[3] = String.valueOf(tiempoInterrupcion);
@@ -1366,18 +1372,18 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         miTabla[5] = "Atendiendo";
 
         if (tipo == 1) {
-            DefaultTableModel modelo = (DefaultTableModel) tblInterrupciones1.getModel();
+            DefaultTableModel modelo = (DefaultTableModel) tblInterrupciones_FCFS.getModel();
             modelo.addRow(miTabla);
-            tblInterrupciones1.setModel(modelo);
+            tblInterrupciones_FCFS.setModel(modelo);
         } else if (tipo == 2) {
-            DefaultTableModel modelo = (DefaultTableModel) tblInterrupciones2.getModel();
+            DefaultTableModel modelo = (DefaultTableModel) tblInterrupciones_SJF.getModel();
             modelo.addRow(miTabla);
-            tblInterrupciones2.setModel(modelo);
+            tblInterrupciones_SJF.setModel(modelo);
 
         } else {
-            DefaultTableModel modelo = (DefaultTableModel) tblInterrupciones3.getModel();
+            DefaultTableModel modelo = (DefaultTableModel) tblInterrupciones_RR.getModel();
             modelo.addRow(miTabla);
-            tblInterrupciones3.setModel(modelo);
+            tblInterrupciones_RR.setModel(modelo);
         }
 
     }
@@ -1583,9 +1589,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
     private javax.swing.JProgressBar pgrRR;
     private javax.swing.JProgressBar pgrSJF;
     public static javax.swing.JTable tblFCFS;
-    public static javax.swing.JTable tblInterrupciones1;
-    public static javax.swing.JTable tblInterrupciones2;
-    public static javax.swing.JTable tblInterrupciones3;
+    public static javax.swing.JTable tblInterrupciones_FCFS;
+    public static javax.swing.JTable tblInterrupciones_RR;
+    public static javax.swing.JTable tblInterrupciones_SJF;
     public static javax.swing.JTable tblPCB_FCFS;
     public static javax.swing.JTable tblPCB_RR;
     public static javax.swing.JTable tblPCB_SJF;
