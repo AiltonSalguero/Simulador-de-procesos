@@ -53,7 +53,6 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
     public static int ContadorInterrupciones_SJF = 0;
     public static int ContadorInterrupciones_RR = 0;
     public static boolean primera = true;//para interrupciones y procesos
-    public PCB ventanaPCB = new PCB();
 
     public Thread principal = new Thread(new Hilo());
 
@@ -136,7 +135,6 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         txtQuantum = new javax.swing.JTextField();
         btnDefinirQuantum = new javax.swing.JButton();
         btnDefinirQuantum1 = new javax.swing.JButton();
-        btnDefinirQuantum2 = new javax.swing.JButton();
         btnGenerarAleatorio = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -242,14 +240,6 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         btnDefinirQuantum1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDefinirQuantum1ActionPerformed(evt);
-            }
-        });
-
-        btnDefinirQuantum2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnDefinirQuantum2.setText("Mostrar PCB");
-        btnDefinirQuantum2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDefinirQuantum2ActionPerformed(evt);
             }
         });
 
@@ -684,9 +674,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(btnDefinirQuantum2, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(722, 722, 722)
+                        .addGap(1025, 1025, 1025)
                         .addComponent(btnDefinirQuantum1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(132, 132, 132)
@@ -744,9 +732,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDefinirQuantum1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDefinirQuantum2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnDefinirQuantum1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -881,11 +867,6 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         interfaz.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnDefinirQuantum1ActionPerformed
-
-    private void btnDefinirQuantum2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDefinirQuantum2ActionPerformed
-        // TODO add your handling code here:
-        ventanaPCB.setVisible(true);
-    }//GEN-LAST:event_btnDefinirQuantum2ActionPerformed
 
     private void txtQuantumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantumActionPerformed
         // TODO add your handling code here:
@@ -1540,7 +1521,6 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
     private javax.swing.JButton btnAnadirProcesoUsuario;
     private javax.swing.JButton btnDefinirQuantum;
     private javax.swing.JButton btnDefinirQuantum1;
-    private javax.swing.JButton btnDefinirQuantum2;
     private javax.swing.JButton btnGenerarAleatorio;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
