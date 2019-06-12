@@ -1090,6 +1090,9 @@ public class Ventana_Expropiativo extends JFrame {
                 barChart_FCFS = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
                 barChart_SJF = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
                 barChart_RR = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+                refrescarTablaContadores(1);
+                refrescarTablaContadores(2);
+                refrescarTablaContadores(3);
                 ventana_Expro.setVisible(true);
             }
         });

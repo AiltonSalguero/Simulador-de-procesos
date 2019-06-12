@@ -12,6 +12,7 @@ import DTO.PairRR;
 import DTO.PairSJF;
 import DTO.PairTiempo;
 import DTO.dtoProceso;
+import org.jfree.chart.JFreeChart;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -33,7 +34,15 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.general.DatasetUtilities;
 
 /**
  *
@@ -44,6 +53,10 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
     /**
      * Creates new form Ventana_Principal
      */
+    public static double contadorBloqueados_FCFS = 0;
+    public static JFreeChart barChart_FCFS;
+    public static JFreeChart barChart_SJF;
+    public static JFreeChart barChart_RR;
     public static int Contador = 1; //numero total de procesos ingresados
     public static int Tamano;
     public static int BurstTime;
@@ -53,6 +66,17 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
     public static int ContadorInterrupciones_SJF = 0;
     public static int ContadorInterrupciones_RR = 0;
     public static boolean primera = true;//para interrupciones y procesos
+    private static double contadorTerminados_FCFS;
+    private static double contadorListos_FCFS;
+    private static double contadorEjecutando_FCFS;
+    private static double contadorTerminados_SJF;
+    private static int contadorListos_SJF;
+    private static int contadorEjecutando_SJF;
+    private static double contadorBloqueados_SJF;
+    private static double contadorTerminados_RR;
+    private static int contadorEjecutando_RR;
+    private static double contadorBloqueados_RR;
+    private static int contadorListos_RR;
 
     public Thread principal = new Thread(new Hilo());
 
@@ -155,6 +179,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         jLabel15 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblPCB_FCFS = new javax.swing.JTable();
+        JPanel_FCF = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -172,6 +197,8 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         jLabel16 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         tblPCB_SJF = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        JPanel_SJF = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -189,6 +216,8 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         jLabel17 = new javax.swing.JLabel();
         jScrollPane9 = new javax.swing.JScrollPane();
         tblPCB_RR = new javax.swing.JTable();
+        JPanel_RR = new javax.swing.JPanel();
+        JPanel_FCFSS = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -319,6 +348,17 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         ));
         jScrollPane5.setViewportView(tblPCB_FCFS);
 
+        javax.swing.GroupLayout JPanel_FCFLayout = new javax.swing.GroupLayout(JPanel_FCF);
+        JPanel_FCF.setLayout(JPanel_FCFLayout);
+        JPanel_FCFLayout.setHorizontalGroup(
+            JPanel_FCFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 618, Short.MAX_VALUE)
+        );
+        JPanel_FCFLayout.setVerticalGroup(
+            JPanel_FCFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -346,7 +386,6 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                                 .addContainerGap())))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(pgrFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -357,8 +396,11 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                                     .addComponent(jLabelPorcentaje)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtPorcentajeFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel14)
                             .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(199, 199, 199))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(JPanel_FCF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -376,20 +418,24 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPorcentajeFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelPorcentaje))
-                        .addGap(5, 5, 5))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelNProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtIdProcesoFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addComponent(pgrFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtPorcentajeFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabelPorcentaje))
+                                .addGap(5, 5, 5))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabelNProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtIdProcesoFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(pgrFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(JPanel_FCF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(12, 12, 12))
         );
 
         jTabbedPane1.addTab("FCFS", jPanel1);
@@ -460,6 +506,28 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         ));
         jScrollPane6.setViewportView(tblPCB_SJF);
 
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout JPanel_SJFLayout = new javax.swing.GroupLayout(JPanel_SJF);
+        JPanel_SJF.setLayout(JPanel_SJFLayout);
+        JPanel_SJFLayout.setHorizontalGroup(
+            JPanel_SJFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 854, Short.MAX_VALUE)
+        );
+        JPanel_SJFLayout.setVerticalGroup(
+            JPanel_SJFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 256, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -467,34 +535,41 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel6)
+                            .addGap(236, 236, 236))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(pgrSJF, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabelNProceso1)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtIdProcesoSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelPorcentaje2)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtPorcentajeSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel10)
+                            .addGap(197, 197, 197)
+                            .addComponent(txtCntSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(236, 236, 236))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(pgrSJF, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jLabelNProceso1)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtIdProcesoSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabelPorcentaje2)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtPorcentajeSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(197, 197, 197)
-                                .addComponent(txtCntSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 872, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel16)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 884, Short.MAX_VALUE)))
-                    .addComponent(jLabel13)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(12, 12, 12)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel16)
+                            .addComponent(JPanel_SJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 18, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -503,26 +578,36 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 .addGap(6, 6, 6)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(txtCntSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(txtCntSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel16))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelNProceso1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtIdProcesoSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelPorcentaje2)
-                    .addComponent(txtPorcentajeSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5)
-                .addComponent(pgrSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelNProceso1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtIdProcesoSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelPorcentaje2)
+                            .addComponent(txtPorcentajeSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(5, 5, 5)
+                        .addComponent(pgrSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(163, 163, 163))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(JPanel_SJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -588,6 +673,17 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         ));
         jScrollPane9.setViewportView(tblPCB_RR);
 
+        javax.swing.GroupLayout JPanel_RRLayout = new javax.swing.GroupLayout(JPanel_RR);
+        JPanel_RR.setLayout(JPanel_RRLayout);
+        JPanel_RRLayout.setHorizontalGroup(
+            JPanel_RRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        JPanel_RRLayout.setVerticalGroup(
+            JPanel_RRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 232, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -597,24 +693,27 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(pgrRR, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabelNProceso2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtIdProcesoRR, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(22, 22, 22)
-                                        .addComponent(jLabelPorcentaje1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtPorcentajeRR, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane9)))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(pgrRR, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                    .addComponent(jLabelNProceso2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(txtIdProcesoRR, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(22, 22, 22)
+                                    .addComponent(jLabelPorcentaje1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtPorcentajeRR, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane9)
+                            .addComponent(JPanel_RR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 381, Short.MAX_VALUE)
+                        .addComponent(txtCntRR, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(922, 922, 922))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -626,11 +725,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                                         .addGap(288, 288, 288)
                                         .addComponent(jLabel17))))
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 381, Short.MAX_VALUE)
-                        .addComponent(txtCntRR, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(922, 922, 922))))
+                        .addContainerGap(834, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -647,25 +742,41 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelNProceso2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtIdProcesoRR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPorcentajeRR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabelPorcentaje1))
-                .addGap(5, 5, 5)
-                .addComponent(pgrRR, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabelNProceso2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtIdProcesoRR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPorcentajeRR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabelPorcentaje1))
+                        .addGap(5, 5, 5)
+                        .addComponent(pgrRR, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(JPanel_RR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("RR", jPanel3);
+
+        javax.swing.GroupLayout JPanel_FCFSSLayout = new javax.swing.GroupLayout(JPanel_FCFSS);
+        JPanel_FCFSS.setLayout(JPanel_FCFSSLayout);
+        JPanel_FCFSSLayout.setHorizontalGroup(
+            JPanel_FCFSSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        JPanel_FCFSSLayout.setVerticalGroup(
+            JPanel_FCFSSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 6, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -706,6 +817,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                             .addComponent(btnGenerarAleatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1400, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(JPanel_FCFSS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(31, 31, 31))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -733,7 +847,8 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDefinirQuantum1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JPanel_FCFSS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -811,6 +926,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 ProcesosFCFS.add(proceso);
                 daopcb.CargarPCB(this, 1, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 1);
+                
+                contarDatos(1);
+                        refrescarTablaContadores(1);
                 FCFS.add(new PairFCFS(BurstTime, proceso.getIdentificador(), 0));
                 DuracionFCFS.add(new PairTiempo(null, null));
                 daoProceso.AgregarProceso(NuevaTabla1, idNueva, BurstTime);
@@ -820,6 +938,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 ProcesosSJF.add(proceso);
                 daopcb.CargarPCB(this, 2, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 2);
+                
+                contarDatos(2);
+                        refrescarTablaContadores(2);
                 SJF.add(new PairSJF(BurstTime, 0, proceso.getIdentificador()));
                 DuracionSJF.add(new PairTiempo(null, null));
                 daoProceso.AgregarProceso(NuevaTabla2, idNueva, BurstTime);
@@ -832,6 +953,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 ProcesosRR.add(proceso);
                 daopcb.CargarPCB(this, 3, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 3);
+                
+                contarDatos(3);
+                        refrescarTablaContadores(3);
                 RR.add(new PairRR(BurstTime, proceso.getIdentificador(), BurstTime));
                 DuracionRR.add(new PairTiempo(null, null));
                 daoProceso.AgregarProceso(NuevaTabla3, idNueva, BurstTime);
@@ -922,6 +1046,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 ProcesosFCFS.add(proceso);
                 daopcb.CargarPCB(this, 1, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 1);
+                
+                contarDatos(1);
+                        refrescarTablaContadores(1);
                 FCFS.add(new PairFCFS(BurstTime, proceso.getIdentificador(), 0));
                 DuracionFCFS.add(new PairTiempo(null, null));
                 daoProceso.AgregarProceso(NuevaTabla1, idNueva, BurstTime);
@@ -931,6 +1058,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 ProcesosSJF.add(proceso);
                 daopcb.CargarPCB(this, 2, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 2);
+                
+                contarDatos(2);
+                        refrescarTablaContadores(2);
                 SJF.add(new PairSJF(BurstTime, 0, proceso.getIdentificador()));
                 DuracionSJF.add(new PairTiempo(null, null));
                 daoProceso.AgregarProceso(NuevaTabla2, idNueva, BurstTime);
@@ -943,6 +1073,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 ProcesosRR.add(proceso);
                 daopcb.CargarPCB(this, 3, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 3);
+                
+                contarDatos(3);
+                        refrescarTablaContadores(3);
                 RR.add(new PairRR(BurstTime, proceso.getIdentificador(), BurstTime));
                 DuracionRR.add(new PairTiempo(null, null));
                 daoProceso.AgregarProceso(NuevaTabla3, idNueva, BurstTime);
@@ -997,6 +1130,13 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                double[][] data = {{0}, {0}, {0}, {0}};
+                CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
+
+                barChart_FCFS = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+                barChart_SJF = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+                barChart_RR = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+                
                 new Ventana_No_Expropiativo().setVisible(true);
             }
         });
@@ -1020,6 +1160,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                     for (int i = 1; i <= tiempo; i++) {
                         TimeTot++;
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Ejecutando", 1);
+                        
+                        contarDatos(1);
+                        refrescarTablaContadores(1);
                         MostrarProgreso(i, tiempo, ac.getIdentificador().intValue(), 1);
                         tblFCFS.setValueAt(procesoActual.getEstadoProceso(), PosicionTabla, 3);
                         tblFCFS.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
@@ -1028,6 +1171,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                         GeneraHijo(PosicionTabla, ac.getIdentificador().intValue(), 1);
                     }
                     CambiaEstado(procesoActual.getIdentificador().intValue(), "Terminado", 1);
+                    
+                    contarDatos(1);
+                        refrescarTablaContadores(1);
                     Borrar(PosicionTabla, 1);
                     AsignaFin(ac.getIdentificador().intValue(), 1);
 
@@ -1048,6 +1194,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                     for (int i = 1; i <= tiempo; i++) {
                         TimeTot++;
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Ejecutando", 2);
+                        
+                        contarDatos(2);
+                        refrescarTablaContadores(2);
                         MostrarProgreso(i, tiempo, ac.getIdentificador().intValue(), 2);
                         tblSJF.setValueAt(procesoActual.getEstadoProceso(), PosicionTabla, 3);
                         tblSJF.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
@@ -1056,6 +1205,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                         GeneraHijo(PosicionTabla, ac.getIdentificador().intValue(), 2);
                     }
                     CambiaEstado(procesoActual.getIdentificador().intValue(), "Terminado", 2);
+                    
+                    contarDatos(2);
+                        refrescarTablaContadores(2);
                     Borrar(PosicionTabla, 2);
                     AsignaFin(ac.getIdentificador().intValue(), 2);
 
@@ -1084,6 +1236,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                     for (int i = 1; i <= tiempoReducir; i++) {
                         TimeTot++;
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Ejecutando", 3);
+                        
+                        contarDatos(3);
+                        refrescarTablaContadores(3);
                         MostrarProgreso(UltimoRR.getBurstTime().intValue() - (UltimoRR.getResiduo().intValue() - i), UltimoRR.getBurstTime().intValue(), UltimoRR.getIdentificador().intValue(), 3);
                         tblRR.setValueAt(procesoActual.getEstadoProceso(), PosicionTabla, 3);
                         tblRR.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
@@ -1093,6 +1248,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                     }
                     if (termina) {
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Terminado", 3);
+                        
+                        contarDatos(3);
+                        refrescarTablaContadores(3);
                         AsignaFin(UltimoRR.getIdentificador().intValue(), 3);
 
                         /*PairTiempo aux = new PairTiempo();
@@ -1106,6 +1264,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                         Borrar(PosicionTabla, 3);
                     } else {
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Listo", 3);
+                        
+                        contarDatos(3);
+                        refrescarTablaContadores(3);
                         RR.set(PosicionTabla, new PairRR(UltimoRR.getBurstTime(), UltimoRR.getIdentificador(), tiempo - tiempoReducir));
                         tblRR.setValueAt("Listo", PosicionTabla, 3);
                         UltimoRR = RR.get((PosicionTabla + 1) % sz);
@@ -1135,12 +1296,129 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         }
     }
 
+    public static void contarDatos(int tipo) {
+        JTable table;
+        if(tipo == 1){
+            table = tblPCB_FCFS;
+        }else if(tipo == 2){
+            table = tblPCB_SJF;
+        }else{
+            table = tblPCB_RR;
+        }
+        DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+
+        double terminados = 0;
+        double listos = 0;
+        double bloqueados = 0;
+        double ejecutados = 0;
+
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            try {
+                if (dtm.getValueAt(i, 4) == "Listo") {
+                    listos++;
+                } else if (dtm.getValueAt(i, 4) == "Terminado") {
+                    terminados++;
+                } else if (dtm.getValueAt(i, 4) == "Ejecutando") {
+                    ejecutados++;
+                } else {
+                    bloqueados++;
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        switch (tipo) {
+            case 1:
+                contadorTerminados_FCFS = terminados;
+                contadorListos_FCFS = listos;
+                contadorEjecutando_FCFS = ejecutados;
+                contadorBloqueados_FCFS = bloqueados;
+                break;
+            case 2:
+                contadorTerminados_SJF = terminados;
+                contadorListos_SJF = (int) listos;
+                contadorEjecutando_SJF = (int) ejecutados;
+                contadorBloqueados_SJF = bloqueados;
+                break;
+            default:
+                contadorTerminados_RR = terminados;
+                contadorListos_RR = (int) listos;
+                contadorEjecutando_RR = (int) ejecutados;
+                contadorBloqueados_RR = bloqueados;
+                break;
+        }
+
+    }
+
+    public static void refrescarTablaContadores(int tipo) {
+        if (tipo == 1) {
+            double[][] data = {{contadorEjecutando_FCFS}, {contadorListos_FCFS}, {contadorTerminados_FCFS}, {contadorBloqueados_FCFS}};
+            CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
+
+            CategoryPlot barChartPlot = barChart_FCFS.getCategoryPlot();
+            barChartPlot.setDataset(dataset);
+
+            BarRenderer br = (BarRenderer) barChartPlot.getRenderer();
+            br.setMaximumBarWidth(.15);
+            barChartPlot.getRenderer().setSeriesPaint(0, new Color(0, 255, 0));
+            barChartPlot.getRenderer().setSeriesPaint(1, new Color(0, 0, 255));
+            barChartPlot.getRenderer().setSeriesPaint(2, new Color(0, 230, 255));
+
+            ChartPanel bar_FCFS = new ChartPanel(barChart_FCFS);
+            bar_FCFS.setSize(700, 200);
+
+            JPanel_FCF.add(bar_FCFS);
+            JPanel_FCF.setSize(700, 200);
+        } else if (tipo == 2) {
+            double[][] data = {{contadorEjecutando_SJF}, {contadorListos_SJF}, {contadorTerminados_SJF}, {contadorBloqueados_SJF}};
+            CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
+
+            CategoryPlot barChartPlot = barChart_SJF.getCategoryPlot();
+            barChartPlot.setDataset(dataset);
+
+            BarRenderer br = (BarRenderer) barChartPlot.getRenderer();
+            br.setMaximumBarWidth(.15);
+            barChartPlot.getRenderer().setSeriesPaint(0, new Color(0, 255, 0));
+            barChartPlot.getRenderer().setSeriesPaint(1, new Color(0, 0, 255));
+            barChartPlot.getRenderer().setSeriesPaint(2, new Color(0, 230, 255));
+
+            ChartPanel bar_SJF = new ChartPanel(barChart_SJF);
+            bar_SJF.setSize(700, 200);
+
+            JPanel_SJF.add(bar_SJF);
+            JPanel_SJF.setSize(700, 200);
+
+        } else {
+            double[][] data = {{contadorEjecutando_RR}, {contadorListos_RR}, {contadorTerminados_RR}, {contadorBloqueados_RR}};
+            CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
+
+            CategoryPlot barChartPlot = barChart_RR.getCategoryPlot();
+            barChartPlot.setDataset(dataset);
+
+            BarRenderer br = (BarRenderer) barChartPlot.getRenderer();
+            br.setMaximumBarWidth(.15);
+            barChartPlot.getRenderer().setSeriesPaint(0, new Color(0, 255, 0));
+            barChartPlot.getRenderer().setSeriesPaint(1, new Color(0, 0, 255));
+            barChartPlot.getRenderer().setSeriesPaint(2, new Color(0, 230, 255));
+
+            ChartPanel bar_RR = new ChartPanel(barChart_RR);
+            bar_RR.setSize(700, 200);
+
+            JPanel_RR.add(bar_RR);
+            JPanel_RR.setSize(700, 200);
+
+        }
+    }
+
     public void GeneraHijo(int PosicionTabla, int IdProceso, int tipo) {
         Random r = new Random();
         daoPCB_NoExp daopcb = new daoPCB_NoExp();
         if (r.nextInt(100) < 5) {
             ActualizaDescendientes(IdProceso, tipo);
             CambiaEstado(IdProceso, "Bloqueado", tipo);
+            
+            contarDatos(tipo);
+                        refrescarTablaContadores(tipo);
             dtoProceso proceso = new dtoProceso();
             if (tipo == 1) {
                 tblFCFS.setValueAt("Bloqueado por Hijo", PosicionTabla, 3);
@@ -1185,6 +1463,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 daopcb.CargarPCB(this, tipo, proceso, -1, -1);
                 DuracionFCFS.add(new PairTiempo(null, null));
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 1);
+                
+                contarDatos(1);
+                        refrescarTablaContadores(1);
                 daoProceso.AgregarProceso(NuevaTabla1, idNueva, BurstTime);
                 tblFCFS.setModel(NuevaTabla1);
             } else if (tipo == 2) {
@@ -1193,6 +1474,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 daopcb.CargarPCB(this, tipo, proceso, -1, -1);
                 DuracionSJF.add(new PairTiempo(null, null));
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 2);
+                
+                contarDatos(2);
+                        refrescarTablaContadores(2);
                 daoProceso.AgregarProceso(NuevaTabla2, idNueva, BurstTime);
                 tblSJF.setModel(NuevaTabla2);
             } else {
@@ -1201,6 +1485,8 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
                 daopcb.CargarPCB(this, tipo, proceso, -1, -1);
                 DuracionRR.add(new PairTiempo(null, null));
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 3);
+                contarDatos(3);
+                        refrescarTablaContadores(3);
                 daoProceso.AgregarProceso(NuevaTabla3, idNueva, BurstTime);
                 tblRR.setModel(NuevaTabla3);
             }
@@ -1218,6 +1504,8 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
             for (int i = 1; i <= tiempo; i++) {
                 TimeTot++;
                 CambiaEstado(procesoHijo.getIdentificador().intValue(), "Ejecutando", tipo);
+                contarDatos(tipo);
+                        refrescarTablaContadores(tipo);
                 MostrarProgreso(i, tiempo, procesoHijo.getIdentificador().intValue(), 1);
                 tblFCFS.setValueAt(procesoHijo.getEstadoProceso(), PosicionTabla, 3);
                 tblFCFS.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
@@ -1231,6 +1519,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
             for (int i = 1; i <= tiempo; i++) {
                 TimeTot++;
                 CambiaEstado(procesoHijo.getIdentificador().intValue(), "Ejecutando", tipo);
+                
+                contarDatos(tipo);
+                        refrescarTablaContadores(tipo);
                 MostrarProgreso(i, tiempo, procesoHijo.getIdentificador().intValue(), 2);
                 tblSJF.setValueAt(procesoHijo.getEstadoProceso(), PosicionTabla, 3);
                 tblSJF.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
@@ -1244,6 +1535,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
             for (int i = 1; i <= tiempo; i++) {
                 TimeTot++;
                 CambiaEstado(procesoHijo.getIdentificador().intValue(), "Ejecutando", tipo);
+                
+                contarDatos(tipo);
+                        refrescarTablaContadores(tipo);
                 MostrarProgreso(i, tiempo, procesoHijo.getIdentificador().intValue(), 3);
                 tblRR.setValueAt(procesoHijo.getEstadoProceso(), PosicionTabla, 3);
                 tblRR.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
@@ -1252,6 +1546,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
             }
         }
         CambiaEstado(procesoHijo.getIdentificador().intValue(), "Terminado", tipo);
+        
+        contarDatos(tipo);
+                        refrescarTablaContadores(tipo);
         Borrar(PosicionTabla, tipo);
         AsignaFin(procesoHijo.getIdentificador().intValue(), tipo);
     }
@@ -1294,6 +1591,9 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         if (r.nextInt(100) < 5) {
             //existe interrupcion
             CambiaEstado(IdProceso, "Bloqueado", tipo);
+            
+            contarDatos(tipo);
+                        refrescarTablaContadores(tipo);
             if (tipo == 1) {
                 tblFCFS.setValueAt("Bloqueado por Interrupción", PosicionTabla, 3);
                 int TiempoInterrupcion = r.nextInt(10) + 1;
@@ -1518,6 +1818,10 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private static javax.swing.JPanel JPanel_FCF;
+    private javax.swing.JPanel JPanel_FCFSS;
+    private static javax.swing.JPanel JPanel_RR;
+    private static javax.swing.JPanel JPanel_SJF;
     private javax.swing.JButton btnAnadirProcesoUsuario;
     private javax.swing.JButton btnDefinirQuantum;
     private javax.swing.JButton btnDefinirQuantum1;
@@ -1549,6 +1853,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
