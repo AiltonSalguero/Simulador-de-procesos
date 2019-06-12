@@ -79,7 +79,7 @@ public class Ventana_inicio extends javax.swing.JFrame {
                         .addGap(84, 84, 84)
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(70, 70, 70)
                         .addComponent(jLabel3)))
                 .addContainerGap(97, Short.MAX_VALUE))
         );

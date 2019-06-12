@@ -91,6 +91,16 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         tblRR.setBackground(Color.white);
         tblRR.setForeground(Color.blue);
 
+        System.out.println("run");
+        double[][] data = {{0}, {0}, {0}, {0}};
+        CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
+
+        barChart_FCFS = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+        barChart_SJF = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+        barChart_RR = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+        refrescarTablaContadores(1);
+        refrescarTablaContadores(2);
+        refrescarTablaContadores(3);
         //Interrupciones de I/O
         /*txtTamano.addKeyListener(this);
         txtBurstTime.addKeyListener(this);
@@ -775,7 +785,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         );
         JPanel_FCFSSLayout.setVerticalGroup(
             JPanel_FCFSSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 6, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1130,13 +1140,7 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                double[][] data = {{0}, {0}, {0}, {0}};
-                CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
-
-                barChart_FCFS = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
-                barChart_SJF = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
-                barChart_RR = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
-                
+                               
                 new Ventana_No_Expropiativo().setVisible(true);
             }
         });

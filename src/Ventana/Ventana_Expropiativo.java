@@ -72,6 +72,16 @@ public class Ventana_Expropiativo extends JFrame {
 
     public Ventana_Expropiativo() {
         initComponents();
+        System.out.println("run");
+                double[][] data = {{0}, {0}, {0}, {0}};
+                CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
+
+                barChart_FCFS = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+                barChart_SJF = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+                barChart_RR = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+                refrescarTablaContadores(1);
+                refrescarTablaContadores(2);
+                refrescarTablaContadores(3);
     }
 
     public static JFreeChart barChart_FCFS;
@@ -1083,16 +1093,7 @@ public class Ventana_Expropiativo extends JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Ventana_Expropiativo ventana_Expro = new Ventana_Expropiativo();
-
-                double[][] data = {{0}, {0}, {0}, {0}};
-                CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
-
-                barChart_FCFS = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
-                barChart_SJF = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
-                barChart_RR = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
-                refrescarTablaContadores(1);
-                refrescarTablaContadores(2);
-                refrescarTablaContadores(3);
+                
                 ventana_Expro.setVisible(true);
             }
         });
