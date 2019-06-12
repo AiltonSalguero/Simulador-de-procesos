@@ -294,15 +294,12 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane7" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane7" alignment="1" pref="903" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace min="0" pref="21" max="32767" attributes="0"/>
-                                      <Component id="JScrollBar_FCFS" min="-2" pref="882" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="JPanel_FCFS" alignment="1" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -352,7 +349,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jScrollPane7" min="-2" pref="170" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="JScrollBar_FCFS" max="32767" attributes="0"/>
+                              <Component id="JPanel_FCFS" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
@@ -517,29 +514,12 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JScrollPane" name="JScrollBar_FCFS">
+            <Container class="javax.swing.JScrollPane" name="JPanel_FCFS">
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
               </AuxValues>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Container class="javax.swing.JPanel" name="jPanel4">
-
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="900" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="252" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
-                </Container>
-              </SubComponents>
             </Container>
             <Component class="javax.swing.JButton" name="btnDefinirQuantum1">
               <Properties>
@@ -605,7 +585,9 @@
                                   <Component id="pgrSJF" alignment="0" min="-2" pref="463" max="-2" attributes="0"/>
                                   <Component id="jScrollPane5" alignment="0" min="-2" pref="472" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="JPanel_SJF" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -630,22 +612,27 @@
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabelNProceso1" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                              <Component id="txtIdProcesoSJF" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabelNProceso1" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+                                      <Component id="txtIdProcesoSJF" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                      <Component id="txtPorcentajeSJF" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabelPorcentaje2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="pgrSJF" min="-2" pref="23" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel13" min="-2" pref="26" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jScrollPane5" min="-2" pref="145" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="txtPorcentajeSJF" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabelPorcentaje2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="JPanel_SJF" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="pgrSJF" min="-2" pref="23" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel13" min="-2" pref="26" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane5" min="-2" pref="145" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -806,6 +793,13 @@
                 <Property name="text" type="java.lang.String" value="PCB&apos;s"/>
               </Properties>
             </Component>
+            <Container class="javax.swing.JScrollPane" name="JPanel_SJF">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+            </Container>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel3">
@@ -855,7 +849,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -864,7 +858,7 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jPanelChart_FCFS" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="JPanel_RR" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -895,9 +889,9 @@
                           <Component id="jScrollPane3" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
                           <Component id="jScrollPane9" min="-2" pref="170" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabelPorcentaje1" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="txtIdProcesoRR" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -911,10 +905,7 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jScrollPane6" min="-2" pref="145" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                              <Component id="jPanelChart_FCFS" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="JPanel_RR" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="18" max="32767" attributes="0"/>
                   </Group>
@@ -1074,17 +1065,20 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanelChart_FCFS">
+            <Container class="javax.swing.JPanel" name="JPanel_RR">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
+              </AuxValues>
 
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="747" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="886" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="224" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="236" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>

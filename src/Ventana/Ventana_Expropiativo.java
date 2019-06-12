@@ -12,9 +12,7 @@ import DTO.PairRR;
 import DTO.PairSJF;
 import DTO.PairTiempo;
 import DTO.dtoProceso;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.PopupMenu;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
@@ -30,17 +28,13 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.TableModel;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -81,6 +75,8 @@ public class Ventana_Expropiativo extends JFrame {
     }
 
     public static JFreeChart barChart_FCFS;
+    public static JFreeChart barChart_SJF;
+    public static JFreeChart barChart_RR;
     public Queue< PairFCFS> FCFS = new LinkedList();
     public PriorityQueue< PairSJF> SJF = new PriorityQueue<>();
     public ArrayList<PairRR> RR = new ArrayList<PairRR>();
@@ -162,8 +158,7 @@ public class Ventana_Expropiativo extends JFrame {
         jLabel15 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         tblPCB_FCFS = new javax.swing.JTable();
-        JScrollBar_FCFS = new javax.swing.JScrollPane();
-        jPanel4 = new javax.swing.JPanel();
+        JPanel_FCFS = new javax.swing.JScrollPane();
         btnDefinirQuantum1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -182,6 +177,7 @@ public class Ventana_Expropiativo extends JFrame {
         jScrollPane8 = new javax.swing.JScrollPane();
         tblPCB_SJF = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
+        JPanel_SJF = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -199,7 +195,7 @@ public class Ventana_Expropiativo extends JFrame {
         jLabel17 = new javax.swing.JLabel();
         jScrollPane9 = new javax.swing.JScrollPane();
         tblPCB_RR = new javax.swing.JTable();
-        jPanelChart_FCFS = new javax.swing.JPanel();
+        JPanel_RR = new javax.swing.JPanel();
         btnDefinirQuantum4 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
@@ -351,19 +347,6 @@ public class Ventana_Expropiativo extends JFrame {
         ));
         jScrollPane7.setViewportView(tblPCB_FCFS);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 900, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 252, Short.MAX_VALUE)
-        );
-
-        JScrollBar_FCFS.setViewportView(jPanel4);
-
         btnDefinirQuantum1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnDefinirQuantum1.setText("Volver");
         btnDefinirQuantum1.addActionListener(new java.awt.event.ActionListener() {
@@ -405,13 +388,11 @@ public class Ventana_Expropiativo extends JFrame {
                             .addComponent(jLabel8))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 903, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel15)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 21, Short.MAX_VALUE)
-                                .addComponent(JScrollBar_FCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 882, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(JPanel_FCFS, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnDefinirQuantum1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -449,7 +430,7 @@ public class Ventana_Expropiativo extends JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(JScrollBar_FCFS)))
+                        .addComponent(JPanel_FCFS)))
                 .addGap(38, 38, 38)
                 .addComponent(btnDefinirQuantum1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -557,7 +538,9 @@ public class Ventana_Expropiativo extends JFrame {
                             .addComponent(jLabel13)
                             .addComponent(pgrSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(JPanel_SJF)
+                        .addGap(12, 12, 12)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -576,19 +559,22 @@ public class Ventana_Expropiativo extends JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelNProceso1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtIdProcesoSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtPorcentajeSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabelPorcentaje2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pgrSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabelNProceso1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtIdProcesoSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtPorcentajeSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabelPorcentaje2)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pgrSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(JPanel_SJF))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("SJF", jPanel2);
@@ -653,15 +639,15 @@ public class Ventana_Expropiativo extends JFrame {
         ));
         jScrollPane9.setViewportView(tblPCB_RR);
 
-        javax.swing.GroupLayout jPanelChart_FCFSLayout = new javax.swing.GroupLayout(jPanelChart_FCFS);
-        jPanelChart_FCFS.setLayout(jPanelChart_FCFSLayout);
-        jPanelChart_FCFSLayout.setHorizontalGroup(
-            jPanelChart_FCFSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 747, Short.MAX_VALUE)
+        javax.swing.GroupLayout JPanel_RRLayout = new javax.swing.GroupLayout(JPanel_RR);
+        JPanel_RR.setLayout(JPanel_RRLayout);
+        JPanel_RRLayout.setHorizontalGroup(
+            JPanel_RRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 886, Short.MAX_VALUE)
         );
-        jPanelChart_FCFSLayout.setVerticalGroup(
-            jPanelChart_FCFSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 224, Short.MAX_VALUE)
+        JPanel_RRLayout.setVerticalGroup(
+            JPanel_RRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 236, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -694,7 +680,7 @@ public class Ventana_Expropiativo extends JFrame {
                             .addComponent(jLabelPorcentaje1)
                             .addGap(23, 23, 23)
                             .addComponent(txtPorcentajeRR, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -702,7 +688,7 @@ public class Ventana_Expropiativo extends JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel17)
-                            .addComponent(jPanelChart_FCFS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(JPanel_RR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -723,9 +709,9 @@ public class Ventana_Expropiativo extends JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(4, 4, 4)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabelPorcentaje1)
                             .addComponent(txtIdProcesoRR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -737,9 +723,7 @@ public class Ventana_Expropiativo extends JFrame {
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jPanelChart_FCFS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(JPanel_RR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 18, Short.MAX_VALUE))
         );
 
@@ -907,6 +891,9 @@ public class Ventana_Expropiativo extends JFrame {
                 ProcesosFCFS.add(proceso);
                 daopcb.CargarPCB(this, 1, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 1);
+
+                contarDatos(tblPCB_FCFS, 1);
+                refrescarTablaContadores(1);
                 FCFS.add(new PairFCFS(BurstTime, proceso.getIdentificador(), BurstTime));
                 DuracionFCFS.add(new PairTiempo(null, null));
                 daoProceso.AgregarProceso(NuevaTabla1, idNueva, BurstTime);
@@ -916,6 +903,9 @@ public class Ventana_Expropiativo extends JFrame {
                 ProcesosSJF.add(proceso);
                 daopcb.CargarPCB(this, 2, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 2);
+
+                contarDatos(tblPCB_SJF, 2);
+                refrescarTablaContadores(2);
                 SJF.add(new PairSJF(BurstTime, BurstTime, proceso.getIdentificador()));
                 DuracionSJF.add(new PairTiempo(null, null));
                 daoProceso.AgregarProceso(NuevaTabla2, idNueva, BurstTime);
@@ -928,6 +918,9 @@ public class Ventana_Expropiativo extends JFrame {
                 ProcesosRR.add(proceso);
                 daopcb.CargarPCB(this, 3, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 3);
+                
+                contarDatos(tblPCB_SJF, 3);
+                refrescarTablaContadores(3);
                 RR.add(new PairRR(BurstTime, proceso.getIdentificador(), BurstTime));
                 DuracionRR.add(new PairTiempo(null, null));
                 daoProceso.AgregarProceso(NuevaTabla3, idNueva, BurstTime);
@@ -1008,6 +1001,9 @@ public class Ventana_Expropiativo extends JFrame {
                 ProcesosFCFS.add(proceso);
                 daopcb.CargarPCB(this, 1, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 1);
+                
+                contarDatos(tblPCB_FCFS, 1);
+                refrescarTablaContadores(1);
                 FCFS.add(new PairFCFS(BurstTime, proceso.getIdentificador(), BurstTime));
                 DuracionFCFS.add(new PairTiempo(null, null));
                 daoProceso.AgregarProceso(NuevaTabla1, idNueva, BurstTime);
@@ -1017,6 +1013,9 @@ public class Ventana_Expropiativo extends JFrame {
                 ProcesosSJF.add(proceso);
                 daopcb.CargarPCB(this, 2, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 2);
+                
+                contarDatos(tblPCB_FCFS, 2);
+                refrescarTablaContadores(2);
                 SJF.add(new PairSJF(BurstTime, BurstTime, proceso.getIdentificador()));
                 DuracionSJF.add(new PairTiempo(null, null));
                 daoProceso.AgregarProceso(NuevaTabla2, idNueva, BurstTime);
@@ -1029,6 +1028,9 @@ public class Ventana_Expropiativo extends JFrame {
                 ProcesosRR.add(proceso);
                 daopcb.CargarPCB(this, 3, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 3);
+                
+                contarDatos(tblPCB_RR, 3);
+                refrescarTablaContadores(3);
                 RR.add(new PairRR(BurstTime, proceso.getIdentificador(), BurstTime));
                 DuracionRR.add(new PairTiempo(null, null));
                 daoProceso.AgregarProceso(NuevaTabla3, idNueva, BurstTime);
@@ -1084,10 +1086,11 @@ public class Ventana_Expropiativo extends JFrame {
 
                 double[][] data = {{0}, {0}, {0}, {0}};
                 CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
-                barChart_FCFS = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
-                refrescarTablaContadores(1);
-                ventana_Expro.setVisible(true);
 
+                barChart_FCFS = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+                barChart_SJF = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+                barChart_RR = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+                ventana_Expro.setVisible(true);
             }
         });
     }
@@ -1115,13 +1118,13 @@ public class Ventana_Expropiativo extends JFrame {
 
                         TimeTot++;
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Ejecutando", 1);
+                        contarDatos(tblPCB_FCFS, 1);
+                        refrescarTablaContadores(1);
+
                         MostrarProgreso(ac.getNivel().intValue() - ac.getBurstTime().intValue() + i, ac.getNivel().intValue(), ac.getIdentificador().intValue(), 1);
                         tblFCFS.setValueAt(procesoActual.getEstadoProceso(), PosicionTabla, 3);
                         tblFCFS.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
-                        
-                        contarDatos(tblPCB_FCFS, 1);
-                    refrescarTablaContadores(1);
-                    
+
                         Dormir();
                         GeneraInterrupcion(PosicionTabla, ac.getIdentificador().intValue(), 1);
                         if (CambioCola) {
@@ -1137,24 +1140,26 @@ public class Ventana_Expropiativo extends JFrame {
                     if (i >= tiempo) {
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Terminado", 1);
                         // contador terminado FCFS
-                        
+                        contarDatos(tblPCB_FCFS, 1);
+                        refrescarTablaContadores(1);
                         Borrar(PosicionTabla, 1);
                         AsignaFin(ac.getIdentificador().intValue(), 1);
                         FCFS.remove();
-                        
-                        contarDatos(tblPCB_FCFS, 1);
-                    refrescarTablaContadores(1);
+
                     } else {
                         // contador listo
 
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Listo", 1);
+                        contarDatos(tblPCB_FCFS, 1);
+                        refrescarTablaContadores(1);
                         tblFCFS.setValueAt("Listo", PosicionTabla, 3);
                         FCFS.peek().setBurstTime(tiempo - i);
+
                     }
                     /*PairTiempo aux = new PairTiempo();
                     aux=DuracionFCFS.get(ac.getIdentificador().intValue()-1);
                     System.out.println("Tipo 1 para "+ac.getIdentificador()+" -> "+aux.getInicio()+" "+aux.getFin());*/
-                    
+
                 }
 
                 if (!SJF.isEmpty()) {
@@ -1171,6 +1176,8 @@ public class Ventana_Expropiativo extends JFrame {
                     for (i = 1; i <= tiempo; i++) {
                         TimeTot++;
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Ejecutando", 2);
+                        contarDatos(tblPCB_SJF, 2);
+                        refrescarTablaContadores(2);
                         MostrarProgreso(ac.getNivel().intValue() - ac.getBurstTime().intValue() + i, ac.getNivel().intValue(), ac.getIdentificador().intValue(), 2);
                         tblSJF.setValueAt(procesoActual.getEstadoProceso(), PosicionTabla, 3);
                         tblSJF.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
@@ -1189,22 +1196,25 @@ public class Ventana_Expropiativo extends JFrame {
                     if (i >= tiempo) {
                         // Contador terminado SJF
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Terminado", 2);
+                        contarDatos(tblPCB_SJF, 2);
+                        refrescarTablaContadores(2);
                         Borrar(PosicionTabla, 2);
                         AsignaFin(ac.getIdentificador().intValue(), 2);
                         SJF.remove();
                     } else {
                         // contador listo SJF
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Listo", 2);
+                        contarDatos(tblPCB_SJF, 2);
+                        refrescarTablaContadores(2);
                         tblSJF.setValueAt("Listo", PosicionTabla, 3);
                         SJF.peek().setBurstTime(tiempo - i);
                     }
+
 
                     /*PairTiempo aux = new PairTiempo();
                     aux=DuracionSJF.get(ac.getIdentificador().intValue()-1);
                     System.o
                     ut.println("Tipo 2 para "+ac.getIdentificador()+" -> "+aux.getInicio()+" "+aux.getFin());*/
-                    contarDatos(tblPCB_SJF, 2);
-                    refrescarTablaContadores(2);
                 }
                 int sz = RR.size();
                 if (sz != 0) {
@@ -1226,9 +1236,12 @@ public class Ventana_Expropiativo extends JFrame {
                     }
 
                     int i;
+
                     for (i = 1; i <= tiempoReducir; i++) {
                         TimeTot++;
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Ejecutando", 3);
+                        contarDatos(tblPCB_RR, 3);
+                        refrescarTablaContadores(3);
                         MostrarProgreso(UltimoRR.getBurstTime().intValue() - (UltimoRR.getResiduo().intValue() - i), UltimoRR.getBurstTime().intValue(), UltimoRR.getIdentificador().intValue(), 3);
                         tblRR.setValueAt(procesoActual.getEstadoProceso(), PosicionTabla, 3);
                         tblRR.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
@@ -1244,8 +1257,11 @@ public class Ventana_Expropiativo extends JFrame {
                             break;
                         }
                     }
+
                     if (i >= tiempoReducir) {
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Terminado", 3);
+                        contarDatos(tblPCB_RR, 3);
+                        refrescarTablaContadores(3);
                         AsignaFin(UltimoRR.getIdentificador().intValue(), 3);
 
                         /*PairTiempo aux = new PairTiempo();
@@ -1259,6 +1275,9 @@ public class Ventana_Expropiativo extends JFrame {
                         Borrar(PosicionTabla, 3);
                     } else {
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Listo", 3);
+                        contarDatos(tblPCB_RR, 3);
+                        refrescarTablaContadores(3);
+
                         RR.set(PosicionTabla, new PairRR(UltimoRR.getBurstTime(), UltimoRR.getIdentificador(), tiempo - i));
                         tblRR.setValueAt("Listo", PosicionTabla, 3);
                         UltimoRR = RR.get((PosicionTabla + 1) % sz);
@@ -1291,7 +1310,6 @@ public class Ventana_Expropiativo extends JFrame {
     }
 
     public static void refrescarTablaContadores(int tipo) {
-        System.out.println("fdsf" + contadorBloqueados_FCFS);
         if (tipo == 1) {
             double[][] data = {{contadorEjecutando_FCFS}, {contadorListos_FCFS}, {contadorTerminados_FCFS}, {contadorBloqueados_FCFS}};
             CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
@@ -1308,14 +1326,13 @@ public class Ventana_Expropiativo extends JFrame {
             ChartPanel bar_FCFS = new ChartPanel(barChart_FCFS);
             bar_FCFS.setSize(700, 200);
 
-            JScrollBar_FCFS.add(bar_FCFS);
-            JScrollBar_FCFS.setSize(700, 200);
+            JPanel_FCFS.add(bar_FCFS);
+            JPanel_FCFS.setSize(700, 200);
         } else if (tipo == 2) {
-            // CAMBIAR
-            double[][] data = {{contadorEjecutando_FCFS}, {contadorListos_FCFS}, {contadorTerminados_FCFS}, {contadorBloqueados_FCFS}};
+            double[][] data = {{contadorEjecutando_SJF}, {contadorListos_SJF}, {contadorTerminados_SJF}, {contadorBloqueados_SJF}};
             CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
 
-            CategoryPlot barChartPlot = barChart_FCFS.getCategoryPlot();
+            CategoryPlot barChartPlot = barChart_SJF.getCategoryPlot();
             barChartPlot.setDataset(dataset);
 
             BarRenderer br = (BarRenderer) barChartPlot.getRenderer();
@@ -1324,18 +1341,17 @@ public class Ventana_Expropiativo extends JFrame {
             barChartPlot.getRenderer().setSeriesPaint(1, new Color(0, 0, 255));
             barChartPlot.getRenderer().setSeriesPaint(2, new Color(0, 230, 255));
 
-            ChartPanel bar_FCFS = new ChartPanel(barChart_FCFS);
-            bar_FCFS.setSize(700, 200);
+            ChartPanel bar_SJF = new ChartPanel(barChart_SJF);
+            bar_SJF.setSize(700, 200);
 
-            JScrollBar_FCFS.add(bar_FCFS);
-            JScrollBar_FCFS.setSize(700, 200);
+            JPanel_SJF.add(bar_SJF);
+            JPanel_SJF.setSize(700, 200);
 
         } else {
-            // CAMBIAR
-            double[][] data = {{contadorEjecutando_FCFS}, {contadorListos_FCFS}, {contadorTerminados_FCFS}, {contadorBloqueados_FCFS}};
+            double[][] data = {{contadorEjecutando_RR}, {contadorListos_RR}, {contadorTerminados_RR}, {contadorBloqueados_RR}};
             CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
 
-            CategoryPlot barChartPlot = barChart_FCFS.getCategoryPlot();
+            CategoryPlot barChartPlot = barChart_RR.getCategoryPlot();
             barChartPlot.setDataset(dataset);
 
             BarRenderer br = (BarRenderer) barChartPlot.getRenderer();
@@ -1344,11 +1360,11 @@ public class Ventana_Expropiativo extends JFrame {
             barChartPlot.getRenderer().setSeriesPaint(1, new Color(0, 0, 255));
             barChartPlot.getRenderer().setSeriesPaint(2, new Color(0, 230, 255));
 
-            ChartPanel bar_FCFS = new ChartPanel(barChart_FCFS);
-            bar_FCFS.setSize(700, 200);
+            ChartPanel bar_RR = new ChartPanel(barChart_RR);
+            bar_RR.setSize(700, 200);
 
-            JScrollBar_FCFS.add(bar_FCFS);
-            JScrollBar_FCFS.setSize(700, 200);
+            JPanel_RR.add(bar_RR);
+            JPanel_RR.setSize(700, 200);
 
         }
 
@@ -1360,30 +1376,26 @@ public class Ventana_Expropiativo extends JFrame {
         if (r.nextInt(100) < 5) {
             ActualizaDescendientes(IdProceso, tipo);
             CambiaEstado(IdProceso, "Bloqueado", tipo);
+            contarDatos(tblPCB_FCFS, tipo);
+            refrescarTablaContadores(tipo);
             dtoProceso proceso = new dtoProceso();
             if (tipo == 1) {
                 // contador bloqueado por tipo
-                
+
                 tblFCFS.setValueAt("Bloqueado por Hijo", PosicionTabla, 3);
                 proceso.setIdentificador(IdProcesoFCFS);
                 IdProcesoFCFS++;
-                contarDatos(tblPCB_FCFS,1);
-                refrescarTablaContadores(1);
                 // contador total_FCFS ++
             } else if (tipo == 2) {
                 // contador total SJF
                 tblSJF.setValueAt("Bloqueado por Hijo", PosicionTabla, 3);
                 proceso.setIdentificador(IdProcesoSJF);
                 IdProcesoSJF++;
-                
-                contarDatos(tblPCB_SJF,2);
-                refrescarTablaContadores(2);
+
             } else {
                 tblRR.setValueAt("Bloqueado por Hijo", PosicionTabla, 3);
                 proceso.setIdentificador(IdProcesoRR);
                 IdProcesoRR++;
-                contarDatos(tblPCB_RR,1);
-                refrescarTablaContadores(1);
             }
             Tamano = r.nextInt(100) + 1;
             proceso.setEstadoCPU(1);
@@ -1416,11 +1428,12 @@ public class Ventana_Expropiativo extends JFrame {
                 daopcb.CargarPCB(this, tipo, proceso, -1, -1);
                 DuracionFCFS.add(new PairTiempo(null, null));
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 1);
+                
+                contarDatos(tblPCB_FCFS, 1);
+                refrescarTablaContadores(1);
                 daoProceso.AgregarProceso(NuevaTabla1, idNueva, BurstTime);
                 tblFCFS.setModel(NuevaTabla1);
-                
-                contarDatos(tblFCFS, 1);
-                refrescarTablaContadores(1);
+
             } else if (tipo == 2) {
                 BurstSJF += BurstTime;
                 DefaultTableModel NuevaTabla2 = (DefaultTableModel) tblSJF.getModel();
@@ -1428,11 +1441,11 @@ public class Ventana_Expropiativo extends JFrame {
                 daopcb.CargarPCB(this, tipo, proceso, -1, -1);
                 DuracionSJF.add(new PairTiempo(null, null));
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 2);
+                contarDatos(tblPCB_SJF,2);
+        refrescarTablaContadores(2);
                 daoProceso.AgregarProceso(NuevaTabla2, idNueva, BurstTime);
                 tblSJF.setModel(NuevaTabla2);
-                
-                contarDatos(tblPCB_SJF, 2);
-                refrescarTablaContadores(2);
+
             } else {
                 BurstRR += BurstTime;
                 DefaultTableModel NuevaTabla3 = (DefaultTableModel) tblRR.getModel();
@@ -1440,13 +1453,13 @@ public class Ventana_Expropiativo extends JFrame {
                 daopcb.CargarPCB(this, tipo, proceso, -1, -1);
                 DuracionRR.add(new PairTiempo(null, null));
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 3);
+                contarDatos(tblPCB_RR,3);
+        refrescarTablaContadores(3);
                 daoProceso.AgregarProceso(NuevaTabla3, idNueva, BurstTime);
                 tblRR.setModel(NuevaTabla3);
-                
-                contarDatos(tblPCB_RR, 3);
-                refrescarTablaContadores(3);
+
             }
-            
+
             AtiendeHijo(proceso, tipo, BurstTime);
         }
     }
@@ -1460,19 +1473,23 @@ public class Ventana_Expropiativo extends JFrame {
             for (int i = 1; i <= tiempo; i++) {
                 TimeTot++;
                 CambiaEstado(procesoHijo.getIdentificador().intValue(), "Ejecutando", tipo);
+                contarDatos(tblPCB_FCFS, 1);
+                refrescarTablaContadores(1);
                 MostrarProgreso(i, tiempo, procesoHijo.getIdentificador().intValue(), 1);
                 tblFCFS.setValueAt(procesoHijo.getEstadoProceso(), PosicionTabla, 3);
                 tblFCFS.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
                 Dormir();
             }
-            contarDatos(tblPCB_FCFS, 1);
-            refrescarTablaContadores(1);
+
         } else if (tipo == 2) {
             String idNuevo = procesoHijo.getAncestro().toString() + '-' + procesoHijo.getIdentificador().toString();
             PosicionTabla = BuscaPosicionTabla(idNuevo, 2);
             for (int i = 1; i <= tiempo; i++) {
                 TimeTot++;
                 CambiaEstado(procesoHijo.getIdentificador().intValue(), "Ejecutando", tipo);
+                contarDatos(tblPCB_SJF, 2);
+                refrescarTablaContadores(2);
+
                 MostrarProgreso(i, tiempo, procesoHijo.getIdentificador().intValue(), 2);
                 tblSJF.setValueAt(procesoHijo.getEstadoProceso(), PosicionTabla, 3);
                 tblSJF.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
@@ -1484,6 +1501,9 @@ public class Ventana_Expropiativo extends JFrame {
             for (int i = 1; i <= tiempo; i++) {
                 TimeTot++;
                 CambiaEstado(procesoHijo.getIdentificador().intValue(), "Ejecutando", tipo);
+                contarDatos(tblPCB_RR, 3);
+                refrescarTablaContadores(3);
+
                 MostrarProgreso(i, tiempo, procesoHijo.getIdentificador().intValue(), 3);
                 tblRR.setValueAt(procesoHijo.getEstadoProceso(), PosicionTabla, 3);
                 tblRR.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
@@ -1491,6 +1511,9 @@ public class Ventana_Expropiativo extends JFrame {
             }
         }
         CambiaEstado(procesoHijo.getIdentificador().intValue(), "Terminado", tipo);
+        contarDatos(tblPCB_FCFS, 1);
+        refrescarTablaContadores(1);
+
         Borrar(PosicionTabla, tipo);
         AsignaFin(procesoHijo.getIdentificador().intValue(), tipo);
         CambioCola = true;
@@ -1594,35 +1617,37 @@ public class Ventana_Expropiativo extends JFrame {
         modelo.addRow(miTabla);
         if (tipo == 1) {
             tblInterrupciones_FCFS.setModel(modelo);
-            contarDatos(tblPCB_FCFS, 1);
+            
         } else if (tipo == 2) {
             tblInterrupciones_SJF.setModel(modelo);
-            contarDatos(tblPCB_SJF, 2);
+            
         } else {
             tblInterrupciones_RR.setModel(modelo);
-            contarDatos(tblPCB_RR, 3);
+            
         }
 
     }
 
     public static void contarDatos(JTable table, int tipo) {
         DefaultTableModel dtm = (DefaultTableModel) table.getModel();
- 
+
         double terminados = 0;
         double listos = 0;
         double bloqueados = 0;
         double ejecutados = 0;
 
         for (int i = 0; i < dtm.getRowCount(); i++) {
-            try{if (dtm.getValueAt(i, 4) == "Listo") {
-                listos++;
-            } else if (dtm.getValueAt(i, 4) == "Terminado") {
-                terminados++;
-            } else if (dtm.getValueAt(i, 4) == "Ejecutando") {
-                ejecutados++;
-            } else {
-                bloqueados++;
-            }}catch(Exception e){
+            try {
+                if (dtm.getValueAt(i, 4) == "Listo") {
+                    listos++;
+                } else if (dtm.getValueAt(i, 4) == "Terminado") {
+                    terminados++;
+                } else if (dtm.getValueAt(i, 4) == "Ejecutando") {
+                    ejecutados++;
+                } else {
+                    bloqueados++;
+                }
+            } catch (Exception e) {
                 System.out.println(e);
             }
         }
@@ -1800,7 +1825,9 @@ public class Ventana_Expropiativo extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private static javax.swing.JScrollPane JScrollBar_FCFS;
+    private static javax.swing.JScrollPane JPanel_FCFS;
+    private static javax.swing.JPanel JPanel_RR;
+    private static javax.swing.JScrollPane JPanel_SJF;
     private javax.swing.JButton btnAnadirProcesoUsuario;
     private javax.swing.JButton btnDefinirQuantum;
     private javax.swing.JButton btnDefinirQuantum1;
@@ -1835,8 +1862,6 @@ public class Ventana_Expropiativo extends JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanelChart_FCFS;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
