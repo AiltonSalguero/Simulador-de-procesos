@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -16,40 +17,42 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
-public class PieFrame extends JPanel {
+public class BarsFrame extends JPanel {
 
     public static void main(String... args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PieFrame().setVisible(true);
+                new BarsFrame().setVisible(true);
             }
         });
     }
 
-    public PieFrame() {
+    public BarsFrame() {
         DefaultCategoryDataset barChartData = new DefaultCategoryDataset();
         barChartData.setValue(20, "Eje Y", "Eje X");
         barChartData.setValue(1, "Eje Y", "Eje Xs");
         barChartData.setValue(15, "Eje Y", "Eje Xs");
-
-        System.out.println("barras");
-        JFreeChart barChart = ChartFactory.createBarChart("titulo", "fds", "sdfdf", barChartData, PlotOrientation.HORIZONTAL, true, true, true);
+        
+        JFreeChart barChart = ChartFactory.createBarChart("", "Proceso", "Progreso", barChartData, PlotOrientation.HORIZONTAL, false, true, true);
         CategoryPlot barChartPlot = barChart.getCategoryPlot();
         barChartPlot.setRangeGridlinePaint(java.awt.Color.RED);
+        barChartPlot.isDomainPannable();
         
         BarRenderer br = (BarRenderer) barChartPlot.getRenderer();
-        br.setMaximumBarWidth(.05);
+        br.setMaximumBarWidth(.15);
         
 
-        ChartPanel bar_FCFS = new ChartPanel(barChart){
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension(300, 200);
-            }
-        };
-        bar_FCFS.setDomainZoomable(false);
-        bar_FCFS.setRangeZoomable(false);
+        
+        ChartPanel bar_FCFS = new ChartPanel(barChart);
+//        ChartPanel bar_FCFS = new ChartPanel(barChart){
+//            @Override
+//            public Dimension getPreferredSize() {
+//                return new Dimension(800, 200);
+//            }
+//        };
+        //bar_FCFS.setDomainZoomable(false);
+        //bar_FCFS.setRangeZoomable(false);
         this.add(bar_FCFS);
-        setSize(900, 300);
+        setSize(400,100);
     }
 }

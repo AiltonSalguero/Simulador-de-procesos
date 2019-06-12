@@ -13,6 +13,8 @@ import DTO.PairSJF;
 import DTO.PairTiempo;
 import DTO.dtoProceso;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.PopupMenu;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
@@ -28,10 +30,17 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -52,13 +61,26 @@ public class Ventana_Expropiativo extends JFrame {
     public static int ContadorInterrupciones_SJF = 0;
     public static int ContadorInterrupciones_RR = 0;
     public static boolean primera = true;//para interrupciones y procesos
+    private static double contadorTerminados_FCFS = 0;
+    private static double contadorListos_FCFS = 0;
+    private static double contadorEjecutando_FCFS = 0;
+    private static double contadorTerminados_SJF;
+    private static int contadorEjecutando_SJF;
+    private static int contadorListos_SJF;
+    private static int contadorEjecutando_RR;
+    private static int contadorListos_RR;
+    private static double contadorTerminados_RR;
+    private static double contadorBloqueados_SJF;
+    private static double contadorBloqueados_RR;
 
     public Thread principal = new Thread(new Hilo());
+    private static double contadorTotal_FCFS = 0;
 
     public Ventana_Expropiativo() {
         initComponents();
     }
 
+    public static JFreeChart barChart_FCFS;
     public Queue< PairFCFS> FCFS = new LinkedList();
     public PriorityQueue< PairSJF> SJF = new PriorityQueue<>();
     public ArrayList<PairRR> RR = new ArrayList<PairRR>();
@@ -95,6 +117,9 @@ public class Ventana_Expropiativo extends JFrame {
     public double RetornoFCFS = 0.0;
     public double RetornoSJF = 0.0;
     public double RetornoRR = 0.0;
+    DefaultCategoryDataset barChartData = new DefaultCategoryDataset();
+
+    public static double contadorBloqueados_FCFS = 0;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -137,8 +162,9 @@ public class Ventana_Expropiativo extends JFrame {
         jLabel15 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         tblPCB_FCFS = new javax.swing.JTable();
+        JScrollBar_FCFS = new javax.swing.JScrollPane();
+        jPanel4 = new javax.swing.JPanel();
         btnDefinirQuantum1 = new javax.swing.JButton();
-        jPanelBar_FCFS = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -156,7 +182,6 @@ public class Ventana_Expropiativo extends JFrame {
         jScrollPane8 = new javax.swing.JScrollPane();
         tblPCB_SJF = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
-        btnDefinirQuantum3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -174,9 +199,8 @@ public class Ventana_Expropiativo extends JFrame {
         jLabel17 = new javax.swing.JLabel();
         jScrollPane9 = new javax.swing.JScrollPane();
         tblPCB_RR = new javax.swing.JTable();
-        btnDefinirQuantum4 = new javax.swing.JButton();
         jPanelChart_FCFS = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
+        btnDefinirQuantum4 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -327,6 +351,19 @@ public class Ventana_Expropiativo extends JFrame {
         ));
         jScrollPane7.setViewportView(tblPCB_FCFS);
 
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 900, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 252, Short.MAX_VALUE)
+        );
+
+        JScrollBar_FCFS.setViewportView(jPanel4);
+
         btnDefinirQuantum1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnDefinirQuantum1.setText("Volver");
         btnDefinirQuantum1.addActionListener(new java.awt.event.ActionListener() {
@@ -335,19 +372,6 @@ public class Ventana_Expropiativo extends JFrame {
             }
         });
 
-        jPanelBar_FCFS.setBackground(new java.awt.Color(238, 0, 0));
-
-        javax.swing.GroupLayout jPanelBar_FCFSLayout = new javax.swing.GroupLayout(jPanelBar_FCFS);
-        jPanelBar_FCFS.setLayout(jPanelBar_FCFSLayout);
-        jPanelBar_FCFSLayout.setHorizontalGroup(
-            jPanelBar_FCFSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanelBar_FCFSLayout.setVerticalGroup(
-            jPanelBar_FCFSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 222, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -355,61 +379,59 @@ public class Ventana_Expropiativo extends JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(txtPorcentajeFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(txtPorcentajeFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(26, 26, 26)
+                                        .addComponent(jLabel5))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addGap(167, 167, 167)
+                                        .addComponent(txtCntFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(8, 8, 8))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jScrollPane4)
+                                .addComponent(pgrFCFS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(jLabel5))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(167, 167, 167)
-                                .addComponent(txtCntFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(8, 8, 8))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jScrollPane4)
-                        .addComponent(pgrFCFS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelNProceso)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtIdProcesoFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19)
-                        .addComponent(jLabelPorcentaje))
-                    .addComponent(jLabel8))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelNProceso)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtIdProcesoFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(19, 19, 19)
+                                .addComponent(jLabelPorcentaje))
+                            .addComponent(jLabel8))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 914, Short.MAX_VALUE)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel15)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jPanelBar_FCFS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(17, 17, 17)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 21, Short.MAX_VALUE)
+                                .addComponent(JScrollBar_FCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 882, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnDefinirQuantum1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel15))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(txtCntFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15))
+                            .addComponent(txtCntFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(10, 10, 10)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -423,14 +445,13 @@ public class Ventana_Expropiativo extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(229, 229, 229)
-                        .addComponent(jPanelBar_FCFS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDefinirQuantum1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(JScrollBar_FCFS)))
+                .addGap(38, 38, 38)
+                .addComponent(btnDefinirQuantum1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane1.addTab("FCFS", jPanel1);
@@ -501,14 +522,6 @@ public class Ventana_Expropiativo extends JFrame {
         jLabel16.setForeground(new java.awt.Color(0, 0, 204));
         jLabel16.setText("PCB's");
 
-        btnDefinirQuantum3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnDefinirQuantum3.setText("Volver");
-        btnDefinirQuantum3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDefinirQuantum3ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -516,18 +529,6 @@ public class Ventana_Expropiativo extends JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jLabelNProceso1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtIdProcesoSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabelPorcentaje2))
-                            .addComponent(jLabel13)
-                            .addComponent(pgrSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtPorcentajeSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -543,11 +544,20 @@ public class Ventana_Expropiativo extends JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 904, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 899, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDefinirQuantum3, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(jLabelNProceso1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtIdProcesoSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelPorcentaje2))
+                            .addComponent(jLabel13)
+                            .addComponent(pgrSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -565,23 +575,20 @@ public class Ventana_Expropiativo extends JFrame {
                     .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabelNProceso1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtIdProcesoSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtPorcentajeSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabelPorcentaje2)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pgrSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnDefinirQuantum3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabelNProceso1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtIdProcesoSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtPorcentajeSJF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelPorcentaje2)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pgrSJF, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10))
         );
 
         jTabbedPane1.addTab("SJF", jPanel2);
@@ -646,14 +653,6 @@ public class Ventana_Expropiativo extends JFrame {
         ));
         jScrollPane9.setViewportView(tblPCB_RR);
 
-        btnDefinirQuantum4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnDefinirQuantum4.setText("Volver");
-        btnDefinirQuantum4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDefinirQuantum4ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelChart_FCFSLayout = new javax.swing.GroupLayout(jPanelChart_FCFS);
         jPanelChart_FCFS.setLayout(jPanelChart_FCFSLayout);
         jPanelChart_FCFSLayout.setHorizontalGroup(
@@ -662,7 +661,7 @@ public class Ventana_Expropiativo extends JFrame {
         );
         jPanelChart_FCFSLayout.setVerticalGroup(
             jPanelChart_FCFSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 224, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -695,24 +694,17 @@ public class Ventana_Expropiativo extends JFrame {
                             .addComponent(jLabelPorcentaje1)
                             .addGap(23, 23, 23)
                             .addComponent(txtPorcentajeRR, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel17)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 895, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnDefinirQuantum4, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31))
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 895, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPanelChart_FCFS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel17)
+                            .addComponent(jPanelChart_FCFS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -741,24 +733,23 @@ public class Ventana_Expropiativo extends JFrame {
                             .addComponent(jLabelNProceso2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(pgrRR, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(7, 7, 7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 61, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
-                        .addComponent(jPanelChart_FCFS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnDefinirQuantum4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jPanelChart_FCFS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 18, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("RR", jPanel3);
 
-        jButton3.setText("jButton3");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnDefinirQuantum4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnDefinirQuantum4.setText("Volver");
+        btnDefinirQuantum4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnDefinirQuantum4ActionPerformed(evt);
             }
         });
 
@@ -770,46 +761,47 @@ public class Ventana_Expropiativo extends JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtTamano, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtBurstTime, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtQuantum, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(194, 194, 194)
-                                .addComponent(jButton3)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtTamano, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtBurstTime, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtQuantum, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(330, 330, 330)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(5, 5, 5)
-                                        .addComponent(btnDefinirQuantum, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(btnAnadirProcesoUsuario))
-                                .addGap(18, 18, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnGenerarAleatorio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 287, Short.MAX_VALUE))
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                .addGap(335, 335, 335)
+                                .addComponent(btnDefinirQuantum, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnAnadirProcesoUsuario)))
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGenerarAleatorio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(308, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(413, 413, 413)
+                .addComponent(btnDefinirQuantum4, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jButton3))
+                .addComponent(jLabel1)
                 .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtQuantum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -828,7 +820,9 @@ public class Ventana_Expropiativo extends JFrame {
                     .addComponent(jLabel2)
                     .addComponent(btnGenerarAleatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnDefinirQuantum4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -1072,34 +1066,13 @@ public class Ventana_Expropiativo extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCntFCFSActionPerformed
 
-    private void btnDefinirQuantum3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDefinirQuantum3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDefinirQuantum3ActionPerformed
-
     private void btnDefinirQuantum4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDefinirQuantum4ActionPerformed
         // TODO add your handling code here:
+        principal.stop();
+        Ventana_inicio interfaz = new Ventana_inicio();
+        interfaz.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnDefinirQuantum4ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-//        DefaultCategoryDataset barChartData = new DefaultCategoryDataset();
-//        barChartData.setValue(20, "Eje Y", "Eje X");
-//        barChartData.setValue(1, "Eje Y", "Eje Xs");
-//        barChartData.setValue(15, "Eje Y", "Eje Xs");
-//
-//        System.out.println("barras");
-//        JFreeChart barChart = ChartFactory.createBarChart("titulo", "fds", "sdfdf", barChartData, PlotOrientation.HORIZONTAL, false, false, false);
-//        CategoryPlot barChartPlot = barChart.getCategoryPlot();
-//        barChartPlot.setRangeGridlinePaint(java.awt.Color.RED);
-//
-//        ChartPanel bar_FCFS = new ChartPanel(barChart);
-//        jPanelBar_FCFS.removeAll();
-//        jPanelBar_FCFS.add(bar_FCFS, BorderLayout.CENTER);
-//        jPanelBar_FCFS.validate();
-//          
-//        PieFrame pFrame = new PieFrame();
-//        jPanelBar_FCFS.add(pFrame);
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1107,17 +1080,16 @@ public class Ventana_Expropiativo extends JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Ventana_Expropiativo().setVisible(true);
-                PieFrame pFrame = new PieFrame();
-                jPanelBar_FCFS.add(pFrame);
+                Ventana_Expropiativo ventana_Expro = new Ventana_Expropiativo();
+
+                double[][] data = {{0}, {0}, {0}, {0}};
+                CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
+                barChart_FCFS = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+                refrescarTablaContadores(1);
+                ventana_Expro.setVisible(true);
 
             }
         });
-
-    }
-
-    private static void generarGraficoBarras() {
-
     }
 
     private class Hilo implements Runnable { //Objeto de tipo Hilo con extension ejecutable
@@ -1139,11 +1111,17 @@ public class Ventana_Expropiativo extends JFrame {
                     }
                     int i;
                     for (i = 1; i <= tiempo; i++) {
+                        // contador ejecutando
+
                         TimeTot++;
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Ejecutando", 1);
                         MostrarProgreso(ac.getNivel().intValue() - ac.getBurstTime().intValue() + i, ac.getNivel().intValue(), ac.getIdentificador().intValue(), 1);
                         tblFCFS.setValueAt(procesoActual.getEstadoProceso(), PosicionTabla, 3);
                         tblFCFS.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
+                        
+                        contarDatos(tblPCB_FCFS, 1);
+                    refrescarTablaContadores(1);
+                    
                         Dormir();
                         GeneraInterrupcion(PosicionTabla, ac.getIdentificador().intValue(), 1);
                         if (CambioCola) {
@@ -1158,10 +1136,17 @@ public class Ventana_Expropiativo extends JFrame {
                     }
                     if (i >= tiempo) {
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Terminado", 1);
+                        // contador terminado FCFS
+                        
                         Borrar(PosicionTabla, 1);
                         AsignaFin(ac.getIdentificador().intValue(), 1);
                         FCFS.remove();
+                        
+                        contarDatos(tblPCB_FCFS, 1);
+                    refrescarTablaContadores(1);
                     } else {
+                        // contador listo
+
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Listo", 1);
                         tblFCFS.setValueAt("Listo", PosicionTabla, 3);
                         FCFS.peek().setBurstTime(tiempo - i);
@@ -1169,7 +1154,9 @@ public class Ventana_Expropiativo extends JFrame {
                     /*PairTiempo aux = new PairTiempo();
                     aux=DuracionFCFS.get(ac.getIdentificador().intValue()-1);
                     System.out.println("Tipo 1 para "+ac.getIdentificador()+" -> "+aux.getInicio()+" "+aux.getFin());*/
+                    
                 }
+
                 if (!SJF.isEmpty()) {
                     PairSJF ac = SJF.peek();
                     dtoProceso procesoActual = new dtoProceso();
@@ -1200,11 +1187,13 @@ public class Ventana_Expropiativo extends JFrame {
                         }
                     }
                     if (i >= tiempo) {
+                        // Contador terminado SJF
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Terminado", 2);
                         Borrar(PosicionTabla, 2);
                         AsignaFin(ac.getIdentificador().intValue(), 2);
                         SJF.remove();
                     } else {
+                        // contador listo SJF
                         CambiaEstado(procesoActual.getIdentificador().intValue(), "Listo", 2);
                         tblSJF.setValueAt("Listo", PosicionTabla, 3);
                         SJF.peek().setBurstTime(tiempo - i);
@@ -1212,7 +1201,10 @@ public class Ventana_Expropiativo extends JFrame {
 
                     /*PairTiempo aux = new PairTiempo();
                     aux=DuracionSJF.get(ac.getIdentificador().intValue()-1);
-                    System.out.println("Tipo 2 para "+ac.getIdentificador()+" -> "+aux.getInicio()+" "+aux.getFin());*/
+                    System.o
+                    ut.println("Tipo 2 para "+ac.getIdentificador()+" -> "+aux.getInicio()+" "+aux.getFin());*/
+                    contarDatos(tblPCB_SJF, 2);
+                    refrescarTablaContadores(2);
                 }
                 int sz = RR.size();
                 if (sz != 0) {
@@ -1271,6 +1263,8 @@ public class Ventana_Expropiativo extends JFrame {
                         tblRR.setValueAt("Listo", PosicionTabla, 3);
                         UltimoRR = RR.get((PosicionTabla + 1) % sz);
                     }
+                    contarDatos(tblPCB_RR, 3);
+                    refrescarTablaContadores(3);
                 }
                 /*if(FCFS.size()==0 && SJF.size()==0 && RR.size()==0){
                     System.out.println("Termina");
@@ -1296,6 +1290,70 @@ public class Ventana_Expropiativo extends JFrame {
         }
     }
 
+    public static void refrescarTablaContadores(int tipo) {
+        System.out.println("fdsf" + contadorBloqueados_FCFS);
+        if (tipo == 1) {
+            double[][] data = {{contadorEjecutando_FCFS}, {contadorListos_FCFS}, {contadorTerminados_FCFS}, {contadorBloqueados_FCFS}};
+            CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
+
+            CategoryPlot barChartPlot = barChart_FCFS.getCategoryPlot();
+            barChartPlot.setDataset(dataset);
+
+            BarRenderer br = (BarRenderer) barChartPlot.getRenderer();
+            br.setMaximumBarWidth(.15);
+            barChartPlot.getRenderer().setSeriesPaint(0, new Color(0, 255, 0));
+            barChartPlot.getRenderer().setSeriesPaint(1, new Color(0, 0, 255));
+            barChartPlot.getRenderer().setSeriesPaint(2, new Color(0, 230, 255));
+
+            ChartPanel bar_FCFS = new ChartPanel(barChart_FCFS);
+            bar_FCFS.setSize(700, 200);
+
+            JScrollBar_FCFS.add(bar_FCFS);
+            JScrollBar_FCFS.setSize(700, 200);
+        } else if (tipo == 2) {
+            // CAMBIAR
+            double[][] data = {{contadorEjecutando_FCFS}, {contadorListos_FCFS}, {contadorTerminados_FCFS}, {contadorBloqueados_FCFS}};
+            CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
+
+            CategoryPlot barChartPlot = barChart_FCFS.getCategoryPlot();
+            barChartPlot.setDataset(dataset);
+
+            BarRenderer br = (BarRenderer) barChartPlot.getRenderer();
+            br.setMaximumBarWidth(.15);
+            barChartPlot.getRenderer().setSeriesPaint(0, new Color(0, 255, 0));
+            barChartPlot.getRenderer().setSeriesPaint(1, new Color(0, 0, 255));
+            barChartPlot.getRenderer().setSeriesPaint(2, new Color(0, 230, 255));
+
+            ChartPanel bar_FCFS = new ChartPanel(barChart_FCFS);
+            bar_FCFS.setSize(700, 200);
+
+            JScrollBar_FCFS.add(bar_FCFS);
+            JScrollBar_FCFS.setSize(700, 200);
+
+        } else {
+            // CAMBIAR
+            double[][] data = {{contadorEjecutando_FCFS}, {contadorListos_FCFS}, {contadorTerminados_FCFS}, {contadorBloqueados_FCFS}};
+            CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
+
+            CategoryPlot barChartPlot = barChart_FCFS.getCategoryPlot();
+            barChartPlot.setDataset(dataset);
+
+            BarRenderer br = (BarRenderer) barChartPlot.getRenderer();
+            br.setMaximumBarWidth(.15);
+            barChartPlot.getRenderer().setSeriesPaint(0, new Color(0, 255, 0));
+            barChartPlot.getRenderer().setSeriesPaint(1, new Color(0, 0, 255));
+            barChartPlot.getRenderer().setSeriesPaint(2, new Color(0, 230, 255));
+
+            ChartPanel bar_FCFS = new ChartPanel(barChart_FCFS);
+            bar_FCFS.setSize(700, 200);
+
+            JScrollBar_FCFS.add(bar_FCFS);
+            JScrollBar_FCFS.setSize(700, 200);
+
+        }
+
+    }
+
     public void GeneraHijo(int PosicionTabla, int IdProceso, int tipo) {
         Random r = new Random();
         daoPCB_Expro daopcb = new daoPCB_Expro();
@@ -1304,17 +1362,28 @@ public class Ventana_Expropiativo extends JFrame {
             CambiaEstado(IdProceso, "Bloqueado", tipo);
             dtoProceso proceso = new dtoProceso();
             if (tipo == 1) {
+                // contador bloqueado por tipo
+                
                 tblFCFS.setValueAt("Bloqueado por Hijo", PosicionTabla, 3);
                 proceso.setIdentificador(IdProcesoFCFS);
                 IdProcesoFCFS++;
+                contarDatos(tblPCB_FCFS,1);
+                refrescarTablaContadores(1);
+                // contador total_FCFS ++
             } else if (tipo == 2) {
+                // contador total SJF
                 tblSJF.setValueAt("Bloqueado por Hijo", PosicionTabla, 3);
                 proceso.setIdentificador(IdProcesoSJF);
                 IdProcesoSJF++;
+                
+                contarDatos(tblPCB_SJF,2);
+                refrescarTablaContadores(2);
             } else {
                 tblRR.setValueAt("Bloqueado por Hijo", PosicionTabla, 3);
                 proceso.setIdentificador(IdProcesoRR);
                 IdProcesoRR++;
+                contarDatos(tblPCB_RR,1);
+                refrescarTablaContadores(1);
             }
             Tamano = r.nextInt(100) + 1;
             proceso.setEstadoCPU(1);
@@ -1349,6 +1418,9 @@ public class Ventana_Expropiativo extends JFrame {
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 1);
                 daoProceso.AgregarProceso(NuevaTabla1, idNueva, BurstTime);
                 tblFCFS.setModel(NuevaTabla1);
+                
+                contarDatos(tblFCFS, 1);
+                refrescarTablaContadores(1);
             } else if (tipo == 2) {
                 BurstSJF += BurstTime;
                 DefaultTableModel NuevaTabla2 = (DefaultTableModel) tblSJF.getModel();
@@ -1358,6 +1430,9 @@ public class Ventana_Expropiativo extends JFrame {
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 2);
                 daoProceso.AgregarProceso(NuevaTabla2, idNueva, BurstTime);
                 tblSJF.setModel(NuevaTabla2);
+                
+                contarDatos(tblPCB_SJF, 2);
+                refrescarTablaContadores(2);
             } else {
                 BurstRR += BurstTime;
                 DefaultTableModel NuevaTabla3 = (DefaultTableModel) tblRR.getModel();
@@ -1367,7 +1442,11 @@ public class Ventana_Expropiativo extends JFrame {
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 3);
                 daoProceso.AgregarProceso(NuevaTabla3, idNueva, BurstTime);
                 tblRR.setModel(NuevaTabla3);
+                
+                contarDatos(tblPCB_RR, 3);
+                refrescarTablaContadores(3);
             }
+            
             AtiendeHijo(proceso, tipo, BurstTime);
         }
     }
@@ -1386,6 +1465,8 @@ public class Ventana_Expropiativo extends JFrame {
                 tblFCFS.setValueAt(String.valueOf(tiempo - i), PosicionTabla, 2);
                 Dormir();
             }
+            contarDatos(tblPCB_FCFS, 1);
+            refrescarTablaContadores(1);
         } else if (tipo == 2) {
             String idNuevo = procesoHijo.getAncestro().toString() + '-' + procesoHijo.getIdentificador().toString();
             PosicionTabla = BuscaPosicionTabla(idNuevo, 2);
@@ -1448,17 +1529,17 @@ public class Ventana_Expropiativo extends JFrame {
         }
     }
 
-    public void GeneraInterrupcion(int PosicionTabla, int IdProceso, int tipo) {
+    public void GeneraInterrupcion(int filaTabla, int IdProceso, int tipo) {
         Random r = new Random();
         if (r.nextInt(100) < 5) {
             //existe interrupcion
             CambiaEstado(IdProceso, "Bloqueado", tipo);
             if (tipo == 1) {
-                tblFCFS.setValueAt("Bloqueado por Interrupción", PosicionTabla, 3);
+                tblFCFS.setValueAt("Bloqueado por Interrupción", filaTabla, 3);
             } else if (tipo == 2) {
-                tblSJF.setValueAt("Bloqueado por Interrupción", PosicionTabla, 3);
+                tblSJF.setValueAt("Bloqueado por Interrupción", filaTabla, 3);
             } else {
-                tblRR.setValueAt("Bloqueado por Interrupción", PosicionTabla, 3);
+                tblRR.setValueAt("Bloqueado por Interrupción", filaTabla, 3);
             }
             int TiempoInterrupcion = r.nextInt(10) + 1;
             IngresarInterrupcion(TiempoInterrupcion, IdProceso, tipo);
@@ -1466,6 +1547,7 @@ public class Ventana_Expropiativo extends JFrame {
                 for (int j = 1; j <= TiempoInterrupcion; j++) {
                     tblInterrupciones_FCFS.setValueAt(String.valueOf(TiempoInterrupcion - j), ContadorInterrupciones_FCFS - 1, 4);
                     Dormir();
+
                 }
                 tblInterrupciones_FCFS.setValueAt("Terminado", ContadorInterrupciones_FCFS - 1, 5);
             } else if (tipo == 2) {
@@ -1512,10 +1594,53 @@ public class Ventana_Expropiativo extends JFrame {
         modelo.addRow(miTabla);
         if (tipo == 1) {
             tblInterrupciones_FCFS.setModel(modelo);
+            contarDatos(tblPCB_FCFS, 1);
         } else if (tipo == 2) {
             tblInterrupciones_SJF.setModel(modelo);
+            contarDatos(tblPCB_SJF, 2);
         } else {
             tblInterrupciones_RR.setModel(modelo);
+            contarDatos(tblPCB_RR, 3);
+        }
+
+    }
+
+    public static void contarDatos(JTable table, int tipo) {
+        DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+ 
+        double terminados = 0;
+        double listos = 0;
+        double bloqueados = 0;
+        double ejecutados = 0;
+
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            try{if (dtm.getValueAt(i, 4) == "Listo") {
+                listos++;
+            } else if (dtm.getValueAt(i, 4) == "Terminado") {
+                terminados++;
+            } else if (dtm.getValueAt(i, 4) == "Ejecutando") {
+                ejecutados++;
+            } else {
+                bloqueados++;
+            }}catch(Exception e){
+                System.out.println(e);
+            }
+        }
+        if (tipo == 1) {
+            contadorTerminados_FCFS = terminados;
+            contadorListos_FCFS = listos;
+            contadorEjecutando_FCFS = ejecutados;
+            contadorBloqueados_FCFS = bloqueados;
+        } else if (tipo == 2) {
+            contadorTerminados_SJF = terminados;
+            contadorListos_SJF = (int) listos;
+            contadorEjecutando_SJF = (int) ejecutados;
+            contadorBloqueados_SJF = bloqueados;
+        } else {
+            contadorTerminados_RR = terminados;
+            contadorListos_RR = (int) listos;
+            contadorEjecutando_RR = (int) ejecutados;
+            contadorBloqueados_RR = bloqueados;
         }
 
     }
@@ -1675,14 +1800,13 @@ public class Ventana_Expropiativo extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private static javax.swing.JScrollPane JScrollBar_FCFS;
     private javax.swing.JButton btnAnadirProcesoUsuario;
     private javax.swing.JButton btnDefinirQuantum;
     private javax.swing.JButton btnDefinirQuantum1;
-    private javax.swing.JButton btnDefinirQuantum3;
     private javax.swing.JButton btnDefinirQuantum4;
     private javax.swing.JButton btnGenerarAleatorio;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JLabel jLabel1;
@@ -1711,7 +1835,7 @@ public class Ventana_Expropiativo extends JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private static javax.swing.JPanel jPanelBar_FCFS;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanelChart_FCFS;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
