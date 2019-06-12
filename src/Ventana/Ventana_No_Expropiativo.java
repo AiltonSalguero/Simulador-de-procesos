@@ -1357,7 +1357,17 @@ public class Ventana_No_Expropiativo extends javax.swing.JFrame implements KeyLi
     public static void refrescarTablaContadores(int tipo) {
         if (tipo == 1) {
             double[][] data = {{contadorEjecutando_FCFS}, {contadorListos_FCFS}, {contadorTerminados_FCFS}, {contadorBloqueados_FCFS}};
-            CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
+          
+            
+            Comparable comparable1 = (Comparable)("Ejecutando");
+            Comparable comparable2 = (Comparable)("Listo");
+            Comparable comparable3 = (Comparable)("Terminado");
+            Comparable  comparable4 = (Comparable)("Bloqueado");
+            Comparable[] estados= {comparable1,comparable2,comparable3,comparable4};
+            Comparable[] prog = {(Comparable) ("Progreso")};
+            
+            
+            CategoryDataset dataset = DatasetUtilities.createCategoryDataset(estados, prog, data);
 
             CategoryPlot barChartPlot = barChart_FCFS.getCategoryPlot();
             barChartPlot.setDataset(dataset);

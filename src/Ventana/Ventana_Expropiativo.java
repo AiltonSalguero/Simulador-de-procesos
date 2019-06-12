@@ -73,15 +73,15 @@ public class Ventana_Expropiativo extends JFrame {
     public Ventana_Expropiativo() {
         initComponents();
         System.out.println("run");
-                double[][] data = {{0}, {0}, {0}, {0}};
-                CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
+        double[][] data = {{0}, {0}, {0}, {0}};
+        CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
 
-                barChart_FCFS = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
-                barChart_SJF = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
-                barChart_RR = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
-                refrescarTablaContadores(1);
-                refrescarTablaContadores(2);
-                refrescarTablaContadores(3);
+        barChart_FCFS = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+        barChart_SJF = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+        barChart_RR = ChartFactory.createBarChart("", "Proceso", "Progreso", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+        refrescarTablaContadores(1);
+        refrescarTablaContadores(2);
+        refrescarTablaContadores(3);
     }
 
     public static JFreeChart barChart_FCFS;
@@ -928,7 +928,7 @@ public class Ventana_Expropiativo extends JFrame {
                 ProcesosRR.add(proceso);
                 daopcb.CargarPCB(this, 3, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 3);
-                
+
                 contarDatos(tblPCB_SJF, 3);
                 refrescarTablaContadores(3);
                 RR.add(new PairRR(BurstTime, proceso.getIdentificador(), BurstTime));
@@ -1011,7 +1011,7 @@ public class Ventana_Expropiativo extends JFrame {
                 ProcesosFCFS.add(proceso);
                 daopcb.CargarPCB(this, 1, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 1);
-                
+
                 contarDatos(tblPCB_FCFS, 1);
                 refrescarTablaContadores(1);
                 FCFS.add(new PairFCFS(BurstTime, proceso.getIdentificador(), BurstTime));
@@ -1023,7 +1023,7 @@ public class Ventana_Expropiativo extends JFrame {
                 ProcesosSJF.add(proceso);
                 daopcb.CargarPCB(this, 2, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 2);
-                
+
                 contarDatos(tblPCB_FCFS, 2);
                 refrescarTablaContadores(2);
                 SJF.add(new PairSJF(BurstTime, BurstTime, proceso.getIdentificador()));
@@ -1038,7 +1038,7 @@ public class Ventana_Expropiativo extends JFrame {
                 ProcesosRR.add(proceso);
                 daopcb.CargarPCB(this, 3, proceso, -1, -1);
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 3);
-                
+
                 contarDatos(tblPCB_RR, 3);
                 refrescarTablaContadores(3);
                 RR.add(new PairRR(BurstTime, proceso.getIdentificador(), BurstTime));
@@ -1093,7 +1093,7 @@ public class Ventana_Expropiativo extends JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Ventana_Expropiativo ventana_Expro = new Ventana_Expropiativo();
-                
+
                 ventana_Expro.setVisible(true);
             }
         });
@@ -1316,7 +1316,16 @@ public class Ventana_Expropiativo extends JFrame {
     public static void refrescarTablaContadores(int tipo) {
         if (tipo == 1) {
             double[][] data = {{contadorEjecutando_FCFS}, {contadorListos_FCFS}, {contadorTerminados_FCFS}, {contadorBloqueados_FCFS}};
-            CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Estado", "", data);
+              Comparable comparable1 = (Comparable)("Ejecutando");
+            Comparable comparable2 = (Comparable)("Listo");
+            Comparable comparable3 = (Comparable)("Terminado");
+            Comparable  comparable4 = (Comparable)("Bloqueado");
+            Comparable[] estados= {comparable1,comparable2,comparable3,comparable4};
+            Comparable[] prog = {(Comparable) ("Progreso")};
+            
+            
+            CategoryDataset dataset = DatasetUtilities.createCategoryDataset(estados, prog, data);
+            
 
             CategoryPlot barChartPlot = barChart_FCFS.getCategoryPlot();
             barChartPlot.setDataset(dataset);
@@ -1432,7 +1441,7 @@ public class Ventana_Expropiativo extends JFrame {
                 daopcb.CargarPCB(this, tipo, proceso, -1, -1);
                 DuracionFCFS.add(new PairTiempo(null, null));
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 1);
-                
+
                 contarDatos(tblPCB_FCFS, 1);
                 refrescarTablaContadores(1);
                 daoProceso.AgregarProceso(NuevaTabla1, idNueva, BurstTime);
@@ -1445,8 +1454,8 @@ public class Ventana_Expropiativo extends JFrame {
                 daopcb.CargarPCB(this, tipo, proceso, -1, -1);
                 DuracionSJF.add(new PairTiempo(null, null));
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 2);
-                contarDatos(tblPCB_SJF,2);
-        refrescarTablaContadores(2);
+                contarDatos(tblPCB_SJF, 2);
+                refrescarTablaContadores(2);
                 daoProceso.AgregarProceso(NuevaTabla2, idNueva, BurstTime);
                 tblSJF.setModel(NuevaTabla2);
 
@@ -1457,8 +1466,8 @@ public class Ventana_Expropiativo extends JFrame {
                 daopcb.CargarPCB(this, tipo, proceso, -1, -1);
                 DuracionRR.add(new PairTiempo(null, null));
                 CambiaEstado(proceso.getIdentificador().intValue(), "Listo", 3);
-                contarDatos(tblPCB_RR,3);
-        refrescarTablaContadores(3);
+                contarDatos(tblPCB_RR, 3);
+                refrescarTablaContadores(3);
                 daoProceso.AgregarProceso(NuevaTabla3, idNueva, BurstTime);
                 tblRR.setModel(NuevaTabla3);
 
@@ -1621,13 +1630,13 @@ public class Ventana_Expropiativo extends JFrame {
         modelo.addRow(miTabla);
         if (tipo == 1) {
             tblInterrupciones_FCFS.setModel(modelo);
-            
+
         } else if (tipo == 2) {
             tblInterrupciones_SJF.setModel(modelo);
-            
+
         } else {
             tblInterrupciones_RR.setModel(modelo);
-            
+
         }
 
     }
